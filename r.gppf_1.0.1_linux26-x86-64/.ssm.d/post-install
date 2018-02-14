@@ -1,0 +1,19 @@
+#!/bin/ksh
+domainHome=$1
+packageHome=$2
+profileDirPath=${packageHome}/etc/profile.d
+packageName=${packageHome##*/}
+profilePath=${profileDirPath}/${packageName}.sh
+mkdir -p ${profileDirPath}
+#echo "#${packageName%%_*}_HOME=${packageHome}" >> ${profilePath}
+cd ${packageHome}/Source || exit 1
+rm -rf ../Build
+mkdir -p ../Build
+pushd ../Build
+../Source/gpp-2.24/configure
+make
+find . -name gpp -exec mv {} ../bin/r.gppf.$(uname -s).$(uname -p) \;
+cd ../bin
+ln -sf r.gppf.$(uname -s).$(uname -p) r.gppf
+popd
+rm -rf ../Build

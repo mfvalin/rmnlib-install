@@ -1,0 +1,39 @@
+#!/bin/bash
+[[ -z ${HOST_TARGETS} ]] && { echo "ERROR: no targets specified " ; exit 1 ; }
+set -x
+[[ -r rmnlib_version.inc ]] || { echo "ERROR: rmnlib_version.inc not found " ; exit 1 ; }
+[[ -r Makefile ]] || { echo "ERROR: Makefile not found " ; exit 1 ; }
+if [[ $1 == build ]] ; then
+  for target in ${HOST_TARGETS}
+  do
+    ( . s.ssmuse.dot dev/$target ; make distclean ; make ; make distclean ; )
+  done
+  shift
+fi
+if [[ $1 == install ]] ; then
+  [[ -d ./PUBLIC_INCLUDES ]] || { echo "ERROR: PUBLIC_INCLUDES not found " ; exit 1 ; }
+  echo === installing includes ===
+  cp ./PUBLIC_INCLUDES/* ../include
+  ls -l ../include
+  [[ -d $BASE_ARCH ]] || exit 1
+  echo === installing libraries ===
+  rsync -aruvxlH $BASE_ARCH ../lib
+  shift
+fi
+if [[ $1 == verify ]] ; then
+  source ./rmnlib_version.inc
+#  for i in $(find $BASE_ARCH -type f -name '*.a') ; do ar t $i | wc -l ; done
+  for i in $(find ../lib/$BASE_ARCH -type f -name "librmn_${RMNLIB_VERSION}.a") ; do ar t $i | wc -l ; done
+  shift
+fi
+if [[ $1 == links ]] ; then
+  [[ -r rmnlib_version.inc ]] || exit 1
+  source ./rmnlib_version.inc
+  cd ../lib/$BASE_ARCH
+  for target in * ; do
+   ( cd $target ; [[ -f librmn_${RMNLIB_VERSION}.a ]] && \
+                  ln -sf librmn_${RMNLIB_VERSION}.a librmn.a  && \
+                  ln -sf librmn_${RMNLIB_VERSION}.a librmn_${RMNLIB_VERSION%.*}.a  && \
+                  ln -sf librmn_${RMNLIB_VERSION}.a librmn${RMNLIB_VERSION%%.*}.a )
+  done
+fi
