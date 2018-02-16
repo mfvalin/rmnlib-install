@@ -25,7 +25,7 @@ fi
 #
 if [[ ! -d ${INSTALL_HOME}/setup/ssm_10.151 ]] ; then
   mkdir ${HOME}/tmp
-  git clone${GIT_HOME}/ssm_fork.git tmp/ssm_10.151_all
+  git clone ${GIT_HOME}/ssm_fork.git tmp/ssm_10.151_all
   mkdir -p ${HOME}/ssm_depot
   (cd tmp ; tar zcf ${HOME}/ssm_depot/ssm_10.151_all.ssm --exclude=.git ssm_10.151_all ; )
   tmp/ssm_10.151_all/bin/ssm-installer_10.151_all.sh \
