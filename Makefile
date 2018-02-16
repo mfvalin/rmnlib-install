@@ -8,7 +8,10 @@ phase2: ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.
 	@printf '====================== phase 2 done ======================\n\n'
 	make phase3
 
-phase3: ${SSM_ENV_DOMAIN} ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all listd liste
+phase3: ${SSM_ENV_DOMAIN} \
+        ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all \
+        ${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all \
+        listd liste
 	@printf '====================== phase 3 done ======================\n\n'
 
 listd:
@@ -52,6 +55,7 @@ ${SSM_DOMAIN_HOME}: ${INSTALL_HOME} ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 	    --ssmRepositoryUrl ${SSM_REPOSITORY} \
 	    --defaultRepositorySource ${SSM_REPOSITORY}
 
+# ssmuse_1.4.1_all
 ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all: ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm
 	ssm install -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm
 	ssm publish -d ${SSM_DOMAIN_HOME} -p ssmuse_1.4.1_all
@@ -61,6 +65,7 @@ ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm:
 	    git clone ${GIT_HOME}/ssmuse_fork.git ssmuse_1.4.1_all && \
 	    tar zcf ssmuse_1.4.1_all.ssm --exclude=.git ssmuse_1.4.1_all
 
+# ssm-wrappers_1.0.u_all
 ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all: ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm
 	ssm install -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm
 	ssm publish -d ${SSM_DOMAIN_HOME} -p ssm-wrappers_1.0.u_all
@@ -70,6 +75,7 @@ ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm:
 	    git clone ${GIT_HOME}/ssm-wrappers ssm-wrappers_1.0.u_all && \
 	    tar zcf ssm-wrappers_1.0.u_all.ssm --exclude=.git ssm-wrappers_1.0.u_all
 
+# dot-profile-setup_2.0_all
 ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all: ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
 	ssm install -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p dot-profile-setup_2.0_all
@@ -78,3 +84,14 @@ ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
 	    git clone ${GIT_HOME}/dot-profile-setup dot-profile-setup_2.0_all && \
 	    tar zcf dot-profile-setup_2.0_all.ssm --exclude=.git dot-profile-setup_2.0_all
+
+#shortcut-tools_1.0_all
+${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
+	ssm install -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
+	ssm publish -d ${SSM_ENV_DOMAIN} -p shortcut-tools_1.0_all
+
+${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm:
+	cd ${SSM_REPOSITORY} && \
+	    git clone ${GIT_HOME}/dot-profile-setup shortcut-tools_1.0_all && \
+	    tar zcf shortcut-tools_1.0_all.ssm --exclude=.git shortcut-tools_1.0_all
+
