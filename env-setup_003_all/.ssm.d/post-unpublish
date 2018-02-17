@@ -1,0 +1,8 @@
+#!/bin/bash
+domainHome=$1
+packageHome=$2
+profileDirPath=${packageHome}/etc/profile.d
+packageName=${packageHome##*/}
+profilePath=${profileDirPath}/${packageName}.sh
+mkdir -p ${profileDirPath}
+#echo "#${packageName%%_*}_HOME=${packageHome}" >> ${profilePath}

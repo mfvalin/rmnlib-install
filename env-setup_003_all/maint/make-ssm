@@ -1,0 +1,12 @@
+#!/bin/bash
+SsmDepot=.
+test -f .SsmDepot && SsmDepot=$(cat .SsmDepot)
+package=${0#./}
+package=${package%%/*}
+echo package=$package
+TarCmd="echo tar"
+tar --help 1>/dev/null 2>/dev/null && TarCmd=tar
+gtar --help 1>/dev/null 2>/dev/null && TarCmd=gtar
+gnutar --help 1>/dev/null 2>/dev/null && TarCmd=gnutar
+set -x
+${TarCmd} $(cat env-compute-canada_1.0_all/maint/excludes) --exclude-from=env-compute-canada_1.0_all/maint/excludes.list -zcf ${SsmDepot}/${package}.ssm $(cat env-compute-canada_1.0_all/maint/include)

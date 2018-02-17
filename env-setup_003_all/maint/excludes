@@ -1,0 +1,1 @@
+--exclude do_not_tar --exclude-tag=.ignore
