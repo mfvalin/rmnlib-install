@@ -76,6 +76,14 @@ ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm:
 	    git clone ${GIT_HOME}/ssm-wrappers ssm-wrappers_1.0.u_all && \
 	    tar zcf ssm-wrappers_1.0.u_all.ssm --exclude=.git ssm-wrappers_1.0.u_all
 
+#env-setup_003_all
+${SSM_DOMAIN_HOME}/env-setup_003_all: ${SSM_REPOSITORY}/env-setup_003_all.ssm
+	ssm install -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/env-setup_003_all.ssm
+	ssm publish -d ${SSM_DOMAIN_HOME} -p env-setup_003_all
+
+${SSM_REPOSITORY}/env-setup_003_all.ssm:
+	tar zcf ${SSM_REPOSITORY}/env-setup_003_all.ssm env-setup_003_all
+
 # dot-profile-setup_2.0_all
 ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all: ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
 	ssm install -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
