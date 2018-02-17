@@ -4,13 +4,16 @@ phase1:	prerequis rmnlib-install.dot ${INSTALL_HOME}  ${SSM_REPOSITORY} ${SSM_DO
 	@printf '====================== phase 1 done ======================\n\n'
 	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && make phase2
 
-phase2: ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all ${SSM_DOMAIN_HOME}/env-setup_003_all listd
+phase2: ${SSM_BASE_DOMAIN} ${SSM_LIB_DOMAIN} ${SSM_ENV_DOMAIN} \
+	${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all \
+	${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all \
+	${SSM_DOMAIN_HOME}/env-setup_003_all \
+	listd
 	@printf '====================== phase 2 done ======================\n\n'
 	make phase3
 
-phase3: ${SSM_ENV_DOMAIN} \
-        ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all \
-        ${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all \
+phase3: ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all \
+        ${SSM_BASE_DOMAIN}/shortcut-tools_1.0_all \
         ${SSM_ENV_DOMAIN}/cmcarc_4.3.1u_linux26-x86-64 \
         listd liste
 	@printf '====================== phase 3 done ======================\n\n'
@@ -34,6 +37,9 @@ ${INSTALL_HOME}:
 
 ${SSM_REPOSITORY}:
 	mkdir -p $@
+
+${SSM_BASE_DOMAIN}:
+	ssm created --verbose -d $@ --sources ${SSM_REPOSITORY}
 
 ${SSM_ENV_DOMAIN}:
 	ssm created --verbose -d $@ --sources ${SSM_REPOSITORY}
@@ -95,9 +101,9 @@ ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm:
 	    tar zcf dot-profile-setup_2.0_all.ssm --exclude=.git dot-profile-setup_2.0_all
 
 #shortcut-tools_1.0_all
-${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
-	ssm install -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p shortcut-tools_1.0_all
+${SSM_BASE_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
+	ssm install -d ${SSM_BASE_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
+	ssm publish -d ${SSM_BASE_DOMAIN} -p shortcut-tools_1.0_all
 
 ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
