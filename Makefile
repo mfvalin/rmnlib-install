@@ -12,8 +12,8 @@ phase2: ${SSM_BASE_DOMAIN} ${SSM_LIB_DOMAIN} ${SSM_ENV_DOMAIN} \
 	@printf '====================== phase 2 done ======================\n\n'
 	make phase3
 
-phase3: ${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all \
-        ${SSM_BASE_DOMAIN}/shortcut-tools_1.0_all \
+phase3: ${SSM_BASE_DOMAIN}/dot-profile-setup_2.0_all \
+        ${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all \
         ${SSM_ENV_DOMAIN}/cmcarc_4.3.1u_linux26-x86-64 \
         listd liste
 	@printf '====================== phase 3 done ======================\n\n'
@@ -91,9 +91,9 @@ ${SSM_REPOSITORY}/env-setup_003_all.ssm:
 	tar zcf ${SSM_REPOSITORY}/env-setup_003_all.ssm env-setup_003_all
 
 # dot-profile-setup_2.0_all
-${SSM_ENV_DOMAIN}/dot-profile-setup_2.0_all: ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
-	ssm install -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p dot-profile-setup_2.0_all
+${SSM_BASE_DOMAIN}/dot-profile-setup_2.0_all: ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
+	ssm install -d ${SSM_BASE_DOMAIN} -f ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
+	ssm publish -d ${SSM_BASE_DOMAIN} -p dot-profile-setup_2.0_all
 
 ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -101,9 +101,9 @@ ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm:
 	    tar zcf dot-profile-setup_2.0_all.ssm --exclude=.git dot-profile-setup_2.0_all
 
 #shortcut-tools_1.0_all
-${SSM_BASE_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
-	ssm install -d ${SSM_BASE_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
-	ssm publish -d ${SSM_BASE_DOMAIN} -p shortcut-tools_1.0_all
+${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
+	ssm install -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
+	ssm publish -d ${SSM_ENV_DOMAIN} -p shortcut-tools_1.0_all
 
 ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
