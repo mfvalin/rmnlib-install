@@ -4,7 +4,7 @@ phase1:	prerequis rmnlib-install.dot ${INSTALL_HOME}  ${SSM_REPOSITORY} ${SSM_DO
 	@printf '====================== phase 1 done ======================\n\n'
 	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && make phase2
 
-phase2: ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all listd
+phase2: ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all ${SSM_DOMAIN_HOME}/env-setup_003_all listd
 	@printf '====================== phase 2 done ======================\n\n'
 	make phase3
 
