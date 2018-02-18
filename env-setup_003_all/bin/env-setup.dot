@@ -9,3 +9,4 @@ HOME_ECssm=${HOME_ECssm%/dot-profile-setup*}
 s.which local_shortcuts.dot 2>/dev/null 1>/dev/null && . local_shortcuts.dot
 #
 . .profile_zzzzz
+true # never fail during profile initialization

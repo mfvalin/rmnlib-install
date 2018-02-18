@@ -2,7 +2,7 @@
 export USE_RECURSIVE_SHORTCUTS=yes
 Where=$(readlink -e ${0})
 cd ${Where%/bin*}/src || exit 1
-for Target in ${INSTALL_ARCH_LIST:-/dev/gfortran} ; do
+for Target in ${1:-/dev/gfortran} ; do
   echo "===== COMPILING and INSTALLING for architecture = $Target ====="
   ( \
     . r.load.dot ${Target} ; \

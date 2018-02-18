@@ -5,7 +5,7 @@ cd ${Where%/bin*}/src || exit 1
 cd rpncomm || exit 1
 . ./RPN_COMM_version.inc
 export INSTALLED_VERSION=${RPN_COMM_version}
-for Target in ${INSTALL_ARCH_LIST:-/dev/gfortran} ; do
+for Target in ${1:-/dev/gfortran} ; do
   echo "===== COMPILING and INSTALLING for architecture = $Target ====="
   ( \
     . r.load.dot ${Target} ; \
