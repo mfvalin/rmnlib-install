@@ -7,10 +7,10 @@ default: phase4.done
 include rmnlib-install.cfg
 
 # phase 1 : create package repository, create installation master directory, install ssm
-phase1.done: 
-	make phase1
+phase1: 
+	make phase1.done
 
-phase1: dependencies.done rmnlib-install.dot ${INSTALL_HOME}  ${SSM_REPOSITORY} ${SSM_DOMAIN_HOME}
+phase1.done: dependencies.done rmnlib-install.dot ${INSTALL_HOME}  ${SSM_REPOSITORY} ${SSM_DOMAIN_HOME}
 	@printf '====================== phase 1 done ======================\n\n'
 	touch phase1.done
 
@@ -18,12 +18,11 @@ phase1: dependencies.done rmnlib-install.dot ${INSTALL_HOME}  ${SSM_REPOSITORY} 
 #           create environment domain
 #           install and publish ssmuse, ssm wrappers, user profile setup, setup utilities
 #                               cmcarc, shortcuts, environment utilities, compiling tools
-phase2.done: phase1.done
-	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && make phase2
-	touch phase2.done
+phase2: phase1.done
+	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && make phase2.done
 
 # packages armnlib(data+include) and afsisio to be added here
-phase2: ${SSM_ENV_DOMAIN} \
+phase2.done: ${SSM_ENV_DOMAIN} \
 	${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all \
 	${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all \
 	${SSM_DOMAIN_HOME}/env-setup_003_all \
@@ -40,25 +39,25 @@ phase2: ${SSM_ENV_DOMAIN} \
 	touch phase2.done
 
 # phase 3 : needs ssm, tools installed in phases 2 and 3, and a user setup (compilers and tools)
-phase3.done: phase2.done
-	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && make phase3
-	touch phase3.done
+#           create domain for libraries, install and optionally compile libraries
+phase3: phase2.done
+	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && make phase3.done
 
-phase3: ${SSM_LIB_DOMAIN} \
+phase3.done: ${SSM_LIB_DOMAIN} \
 	${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64 \
 	${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64 \
 	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64 \
         listd liste
 	@printf '====================== phase 3 done ======================\n\n'
+	touch phase3.done
 
-# phase 4 : needs ssm, tools installed in phases 2 and 3, and a user setup (compilers and tools)
-#           create domain for libraries
-phase4.done: phase3.done
-	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile ; . env-setup.dot ; make phase4
-#	touch phase4.done
+# phase 4 : needs ssm, tools and libraries installed in phases 2 and 3, and a user setup (compilers and tools)
+phase4: phase4.done
+	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile ; . env-setup.dot ; make phase4.done
 
-phase4: ${SSM_LIB_DOMAIN}
+phase4.done: ${SSM_LIB_DOMAIN}
 	@printf '====================== phase 4 done ======================\n\n'
+#	touch phase4.done
 
 wipe_install:
 	mkdir -p ${INSTALL_HOME}   && rm -rf ${INSTALL_HOME}
