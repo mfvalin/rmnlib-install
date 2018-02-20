@@ -1,0 +1,5 @@
+if [[ -n $SSM_SHORTCUT_PATH ]] ; then
+  export SSM_SHORTCUT_PATH="$SSM_SHORTCUT_PATH $(generic-shortcuts_1.0_all-cfg)/local"
+else
+  export SSM_SHORTCUT_PATH=$(generic-shortcuts_1.0_all-cfg)/local
+fi

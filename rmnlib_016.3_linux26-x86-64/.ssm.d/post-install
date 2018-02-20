@@ -9,7 +9,7 @@ mkdir -p ${profileDirPath}
 cd ${packageHome}
 #mkdir -p src
 #cd src && tar xf ../*.tar.gz --strip=1
-git clone https://github.com/mfvalin/librmn src
+git clone ${GIT_CACHE:-https://github.com/mfvalin}/librmn src
 cd src || exit 1
 git checkout rmnlib_016.3.1_uqam || exit 1
 [[ -z ${AUTO_COMPILE}${INSTALL_ARCH_LIST} ]] && exit 0

@@ -1,0 +1,1 @@
+export COMPILER_CHOICE=gfortran

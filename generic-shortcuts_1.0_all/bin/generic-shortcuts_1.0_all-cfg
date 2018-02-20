@@ -1,0 +1,4 @@
+#!/bin/bash
+WhErE=$(readlink -e ${0})
+echo ${WhErE%/bin/*}
+

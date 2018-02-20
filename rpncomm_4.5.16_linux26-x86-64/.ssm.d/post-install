@@ -7,7 +7,7 @@ profilePath=${profileDirPath}/${packageName}.sh
 mkdir -p ${profileDirPath}
 #echo "#${packageName%%_*}_HOME=${packageHome}" >> ${profilePath}
 cd ${packageHome}
-git clone https://github.com/mfvalin/rpncomm src
+git clone ${GIT_CACHE:-https://github.com/mfvalin}/rpncomm src
 cd src || exit 1
 git checkout branch_4.5.16 || exit 1
 [[ -z ${AUTO_COMPILE}${INSTALL_ARCH_LIST} ]] && exit 0
