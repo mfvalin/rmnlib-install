@@ -9,4 +9,6 @@ HOME_ECssm=${HOME_ECssm%/dot-profile-setup*}
 s.which local_shortcuts.dot 2>/dev/null 1>/dev/null && . local_shortcuts.dot
 #
 . .profile_zzzzz
+#
+[[ -d ${SSM_DOMAIN_HOME%/*}/lib  ]] && . ssmuse-sh -d ${SSM_DOMAIN_HOME%/*}/lib
 true # never fail during profile initialization

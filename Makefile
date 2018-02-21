@@ -229,6 +229,7 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 # perl-needed
 ${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64: ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm
 	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm
+	( cd ${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64/src && make ; )
 	ssm publish -d ${SSM_ENV_DOMAIN} -p perl-needed_0.0_linux26-x86-64 --force
 
 ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm:
