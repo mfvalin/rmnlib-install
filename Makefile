@@ -371,7 +371,7 @@ rpncomm.done:
 	ssm publish -d ${SSM_LIB_DOMAIN} -p rpncomm_4.5.16_linux26-x86-64 --force
 	touch $@
 
-# vgrid
+# vgrid descriptors
 ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 	ssm install --skipOnInstalled -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
