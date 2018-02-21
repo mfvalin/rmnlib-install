@@ -187,7 +187,7 @@ dependencies.done:
 	@which python         || { echo "ERROR: python not found" ; exit 1 ; }
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
-	    perl -e "use 5.008_008; use strict; use $$i" ||  { echo "ERROR: missing needed perl module $$i" ; exit 1 ; } \
+	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  { echo "ERROR: missing needed perl module $$i" ; exit 1 ; } \
 	    done 
 	touch dependencies.done
 
