@@ -1,0 +1,36 @@
+echo "Acquiring compilation tools"
+
+. version.dot
+
+unset MY_FFLAGS MY_CFLAGS
+
+#MY_FFLAGS="-O2"
+MY_FFLAGS="-C -g -O0"
+#MY_CFLAGS="-O2"
+MY_CFLAGS="-g -O0"
+
+case "${ORDENV_PLAT}" in
+
+   ubuntu-12.04-amd64-64)
+      HPCS_BASE=hpcs/201402/02/base
+      export MY_FFLAGS="${MY_FFLAGS}"
+      export MY_CFLAGS="${MY_CFLAGS}"
+      . ssmuse-sh -d ${HPCS_BASE}
+      :;;
+
+   "") echo "ERROR: variable ORDENV_PLAT not set"
+       echo "       Please review setup.dot for your platform"
+       :;;
+
+    *) echo platform ${ORDENV_PLAT} not suported, please review setup.dot
+       :;;
+esac
+
+RPN_RACINE=/ssm/net/rpn/libs/15.2
+
+export LD_LIBRARY_PATH="${RPN_RACINE}/ubuntu-12.04-amd64-64/lib/Linux_x86-64/intel13sp1u2:${LD_LIBRARY_PATH}"
+export LIBRARY_PATH=${LD_LIBRARY_PATH}
+
+export RPN_INCLUDE_MACRO=${RPN_RACINE}/all/include
+export RPN_INCLUDE_MACRO_ARCH=${RPN_RACINE}/all/include/Linux_x86-64/intel13sp1u2
+export RPN_INCLUDE=${RPN_RACINE}/ubuntu-12.04-amd64-64/include/Linux_x86-64/intel13sp1u2

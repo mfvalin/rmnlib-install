@@ -1,0 +1,54 @@
+echo "Acquiring compilation tools"
+
+. version.dot
+
+unset MY_FFLAGS MY_CFLAGS
+
+MY_FFLAGS="-O2"
+#MY_FFLAGS="-C -g -O0"
+MY_CFLAGS="-O2"
+#MY_CFLAGS="-g -O0"
+
+case "${ORDENV_PLAT}" in
+
+   ubuntu-12.04-amd64-64)
+      export BH_MAKE=make
+      export BH_MODE=intel
+      HPCS_BASE=hpcs/201402/02/base
+      HPCS_COMP=hpcs/201402/02/intel13sp1u2
+      RPN_LIB=rpn/libs/15.2
+      export MY_FFLAGS="-openmp -fp-model source  -warn all ${MY_FFLAGS}"
+      export MY_CFLAGS="-openmp -fp-model precise -w3 ${MY_CFLAGS}"
+      . ssmuse-sh -d ${HPCS_BASE} -d ${HPCS_COMP} -d ${RPN_LIB}
+      :;;
+
+   ubuntu-14.04-amd64-64)
+      export BH_MAKE=make
+      export BH_MODE=intel
+      HPCS_BASE=hpcs/201402/02/base
+      HPCS_COMP=hpcs/201402/02/intel13sp1u2
+      RPN_LIB=rpn/libs/15.2
+      export MY_FFLAGS="-openmp -fp-model source -warn all ${MY_FFLAGS}"
+      export MY_CFLAGS="-openmp -fp-model precise -w3 ${MY_CFLAGS}"
+      . ssmuse-sh -d ${HPCS_BASE} -d ${HPCS_COMP} -d ${RPN_LIB}
+      :;;
+
+   aix-7.1-ppc7-64)
+      export BH_MAKE=gmake
+      r.use gmake as make
+      export BH_MODE=xlf13
+      HPCS_BASE=hpcs/201402/02/base
+      HPCS_COMP=hpcs/ext/xlf_13.1.0.10
+      RPN_LIB=rpn/libs/15.2
+      export MY_FFLAGS="${MY_FFLAGS}"
+      export MY_CFLAGS="${MY_FFLAGS}"
+      . ssmuse-sh -d ${HPCS_BASE} -d ${HPCS_COMP} -d ${RPN_LIB}
+      :;;
+
+   "") echo "ERROR: variable ORDENV_PLAT not set"
+       echo "       Please review setup.dot for your platform"
+       :;;
+
+    *) echo platform ${ORDENV_PLAT} not suported, please review setup.dot
+       :;;
+esac

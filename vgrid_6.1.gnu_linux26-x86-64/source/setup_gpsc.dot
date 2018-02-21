@@ -1,0 +1,33 @@
+echo "Acquiring compilation tools"
+
+. version.dot
+
+unset MY_FFLAGS MY_CFLAGS
+
+MY_FFLAGS="-O1"
+#MY_FFLAGS="-C -g -O0"
+MY_CFLAGS="-O1"
+#MY_CFLAGS="-g -O0"
+
+case "${ORDENV_PLAT}" in
+
+   ubuntu-14.04-amd64-64)
+      export BH_MAKE=make
+      export BH_MODE=intel
+      HPCS_BASE=/fs/ssm/hpco/tmp/eccc/201402/03/base
+      HPCS_COMP=/fs/ssm/hpco/exp/intel-2016.1.156
+      HPCS_CODE_TOOL=/fs/ssm/hpco/exp/jdm536/code-tools/code-tools_2.0_all
+      RPN_LIB=/fs/ssm/eccc/mrd/rpn/libs/16.0-alpha
+      export MY_FFLAGS="-openmp -fp-model source -warn all ${MY_FFLAGS}"
+      export MY_CFLAGS="-openmp -fp-model precise -w3 ${MY_CFLAGS}"
+      . ssmuse-sh -d ${HPCS_BASE} -d ${HPCS_COMP} -p ${HPCS_CODE_TOOL}
+      . ssmuse-sh -d ${RPN_LIB}
+      :;;
+
+   "") echo "ERROR: variable ORDENV_PLAT not set"
+       echo "       Please review setup.dot for your platform"
+       :;;
+
+    *) echo platform ${ORDENV_PLAT} not suported, please review setup.dot
+       :;;
+esac

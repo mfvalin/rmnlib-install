@@ -1,0 +1,9 @@
+#include "msg.h"
+
+! Public class constants
+integer, parameter, public :: VGD_LEN_NAME=8  !maximum length of a variable name in the data file
+integer, parameter, public :: VGD_OK=0        !method return value on success
+integer, parameter, public :: VGD_ERROR=-1    !method return value on error
+real, parameter, public :: VGD_MISSING=-9999. !missing value returned for invalid entries
+character(len=MSG_MAXLEN), public :: for_msg  !String to write output messages     
+character(len=6), parameter, public :: VGD_PRFX="(vgd) " !String to prefix masages
