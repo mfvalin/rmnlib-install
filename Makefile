@@ -9,7 +9,7 @@ include rmnlib-install.cfg
 ##############################################################################################################
 # phase 0 : populate the git cache and the ssm cache,  create package repository
 ##############################################################################################################
-phase0: dependencies.done ${SSM_CACHE} ${GIT_CACHE} ${INSTALL_HOME} \
+phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} \
 	${GIT_CACHE}/perl_needed \
 	${GIT_CACHE}/ssm_fork.git \
 	${GIT_CACHE}/ssmuse_fork.git \
@@ -50,6 +50,7 @@ phase2: | phase1
 
 # packages armnlib(data+include) and afsisio to be added here
 phase2.done: ${SSM_ENV_DOMAIN} \
+	${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64 \
 	${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all \
 	${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all \
 	${SSM_DOMAIN_HOME}/env-setup_003_all \
@@ -192,7 +193,7 @@ dependencies.done:
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
 	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  \
-	    { printf "ERROR: missing needed perl module $$i, try\n . ./get_perl_needed.dot ${GIT_CACHE}" ; exit 1 ; } \
+	    { printf "ERROR: missing needed perl module $$i, try\n . ./get_perl_needed.dot ${GIT_CACHE}\n" ; exit 1 ; } \
 	    done 
 	touch dependencies.done
 
@@ -231,10 +232,20 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 	    --ssmRepositoryUrl ${SSM_REPOSITORY} \
 	    --defaultRepositorySource ${SSM_REPOSITORY}
 
+# perl-needed
+${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64: ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm
+	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm
+	ssm publish -d ${SSM_ENV_DOMAIN} -p perl-needed_0.0_linux26-x86-64 --force
+
+${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm:
+	cd ${SSM_REPOSITORY} && \
+	  git clone ${GIT_CACHE}/perl_needed perl-needed_0.0_linux26-x86-64
+	  tar zcf perl-needed_0.0_linux26-x86-64.ssm  --exclude=.git perl-needed_0.0_linux26-x86-64
+
 # ssmuse_1.4.1_all
 ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all: ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm
-	ssm publish -d ${SSM_DOMAIN_HOME} -p ssmuse_1.4.1_all
+	ssm publish -d ${SSM_DOMAIN_HOME} -p ssmuse_1.4.1_all --force
 
 ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -244,7 +255,7 @@ ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm:
 # ssm-wrappers_1.0.u_all
 ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all: ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm
-	ssm publish -d ${SSM_DOMAIN_HOME} -p ssm-wrappers_1.0.u_all
+	ssm publish -d ${SSM_DOMAIN_HOME} -p ssm-wrappers_1.0.u_all --force
 
 ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -254,7 +265,7 @@ ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm:
 #env-setup_003_all
 ${SSM_DOMAIN_HOME}/env-setup_003_all: ${SSM_REPOSITORY}/env-setup_003_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/env-setup_003_all.ssm
-	ssm publish -d ${SSM_DOMAIN_HOME} -p env-setup_003_all
+	ssm publish -d ${SSM_DOMAIN_HOME} -p env-setup_003_all --force
 
 ${SSM_REPOSITORY}/env-setup_003_all.ssm:
 	tar zcf ${SSM_REPOSITORY}/env-setup_003_all.ssm env-setup_003_all
@@ -262,7 +273,7 @@ ${SSM_REPOSITORY}/env-setup_003_all.ssm:
 # dot-profile-setup_2.0_all
 ${SSM_DOMAIN_HOME}/dot-profile-setup_2.0_all: ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
-	ssm publish -d ${SSM_DOMAIN_HOME} -p dot-profile-setup_2.0_all
+	ssm publish -d ${SSM_DOMAIN_HOME} -p dot-profile-setup_2.0_all --force
 
 ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -272,7 +283,7 @@ ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm:
 #shortcut-tools_1.0_all
 ${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p shortcut-tools_1.0_all
+	ssm publish -d ${SSM_ENV_DOMAIN} -p shortcut-tools_1.0_all --force
 
 ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -282,7 +293,7 @@ ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm:
 # shortcuts (generic or site specific)
 ${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}: ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
 	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p ${SSM_SHORTCUTS}
+	ssm publish -d ${SSM_ENV_DOMAIN} -p ${SSM_SHORTCUTS} --force
 
 ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm:
 	tar zcf ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm ${SSM_SHORTCUTS}
@@ -290,7 +301,7 @@ ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm:
 #cmcarc_4.3.1u_linux26-x86-64
 ${SSM_ENV_DOMAIN}/cmcarc_4.3.1u_linux26-x86-64: ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm
 	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p cmcarc_4.3.1u_linux26-x86-64
+	ssm publish -d ${SSM_ENV_DOMAIN} -p cmcarc_4.3.1u_linux26-x86-64 --force
 
 ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -300,7 +311,7 @@ ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm:
 #env-utils_1.0u_all
 ${SSM_ENV_DOMAIN}/env-utils_1.0u_all: ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p env-utils_1.0u_all
+	ssm publish -d ${SSM_ENV_DOMAIN} -p env-utils_1.0u_all --force
 
 ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm:
 	cd ${SSM_REPOSITORY} && \
@@ -310,7 +321,7 @@ ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm:
 #code-tools_1.0_all
 ${SSM_ENV_DOMAIN}/code-tools_1.0_all: ${SSM_REPOSITORY}/code-tools_1.0_all.ssm
 	ssm install --skipOnInstalled -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/code-tools_1.0_all.ssm
-	ssm publish -d ${SSM_ENV_DOMAIN} -p code-tools_1.0_all
+	ssm publish -d ${SSM_ENV_DOMAIN} -p code-tools_1.0_all --force
 
 ${SSM_REPOSITORY}/code-tools_1.0_all.ssm:
 	cd ${SSM_REPOSITORY} && \
