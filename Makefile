@@ -179,16 +179,16 @@ ${INSTALL_HOME}:
 	@echo "PLS create directory $@ (need ~500MByte)" ; false
 
 dependencies.done:
-	@which /bin/ksh       || echo "ERROR: /bin/ksh not found"
-	@which /bin/ksh93     || echo "ERROR: /bin/ksh93 not found"
-	@echo "typeset -A aa; aa['tagada']='shimboum' ; typeset -Z4 n" | /bin/ksh93  || echo "ERROR: not a bona fide ksh93"
-	@which gfortran       || echo "ERROR: gfortran not found"
-	@which git            || echo "ERROR: git not found"
-	@which python         || echo "ERROR: python not found"
-	@which perl           || echo "ERROR: perl not found"
+	@which /bin/ksh       || { echo "ERROR: /bin/ksh not found" ; exit 1 ; }
+	@which /bin/ksh93     || { echo "ERROR: /bin/ksh93 not found" ; exit 1 ; }
+	@echo "typeset -A aa; aa['tagada']='shimboum' ; typeset -Z4 n" | /bin/ksh93  || { echo "ERROR: not a bona fide ksh93" ; exit 1 ; }
+	@which gfortran       || { echo "ERROR: gfortran not found" ; exit 1 ; }
+	@which git            || { echo "ERROR: git not found" ; exit 1 ; }
+	@which python         || { echo "ERROR: python not found" ; exit 1 ; }
+	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
-	    perl -e "use 5.008_008; use strict; use $$i" ; \
-	    done  ||  echo "ERROR: missing needed perl modules"
+	    perl -e "use 5.008_008; use strict; use $$i" ; ||  { echo "ERROR: missing needed perl module $$i" ; exit 1 ; } \
+	    done 
 	touch dependencies.done
 
 mpidependencies.done:
