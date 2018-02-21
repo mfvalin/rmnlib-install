@@ -46,7 +46,7 @@ case "${COMPILER_CHOICE:-pgi}" in
            mpif90 --version
            echo "=== using gfortran/gcc ==="
            ;;
-   ifort16)
+   ifort | ifort16)
            export COMP_ARCH=intel
 #           module load intel
            which ifort || return 111
