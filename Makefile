@@ -239,7 +239,7 @@ ${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64: ${SSM_REPOSITORY}/perl-needed_
 
 ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm:
 	cd ${SSM_REPOSITORY} && \
-	  git clone ${GIT_CACHE}/perl_needed perl-needed_0.0_linux26-x86-64
+	  git clone ${GIT_CACHE}/perl_needed perl-needed_0.0_linux26-x86-64 && \
 	  tar zcf perl-needed_0.0_linux26-x86-64.ssm  --exclude=.git perl-needed_0.0_linux26-x86-64
 
 # ssmuse_1.4.1_all
