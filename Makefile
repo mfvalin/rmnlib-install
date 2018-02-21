@@ -9,8 +9,7 @@ include rmnlib-install.cfg
 ##############################################################################################################
 # phase 0 : populate the git cache and the ssm cache,  create package repository
 ##############################################################################################################
-phase0: ${SSM_CACHE} ${GIT_CACHE} ${INSTALL_HOME} \
-	@which git            || { echo "ERROR: git not found" ; exit 1 ; }
+phase0: dependencies.done ${SSM_CACHE} ${GIT_CACHE} ${INSTALL_HOME} \
 	${GIT_CACHE}/perl_needed \
 	${GIT_CACHE}/ssm_fork.git \
 	${GIT_CACHE}/ssmuse_fork.git \
@@ -34,7 +33,7 @@ phase1: | phase0
 	make phase1.done
 	touch phase1
 
-phase1.done: dependencies.done rmnlib-install.dot ${INSTALL_HOME} ${SSM_DOMAIN_HOME}
+phase1.done: rmnlib-install.dot ${INSTALL_HOME} ${SSM_DOMAIN_HOME}
 	@printf '====================== phase 1 done ======================\n\n'
 	touch phase1.done
 
@@ -184,6 +183,7 @@ ${INSTALL_HOME}:
 	@echo "PLS create directory $@ (need ~500MByte)" ; false
 
 dependencies.done:
+	@which git            || { echo "ERROR: git not found" ; exit 1 ; }
 	@which /bin/ksh       || { echo "ERROR: /bin/ksh not found" ; exit 1 ; }
 	@which /bin/ksh93     || { echo "ERROR: /bin/ksh93 not found" ; exit 1 ; }
 	@echo "typeset -A aa; aa['tagada']='shimboum' ; typeset -Z4 n" | /bin/ksh93  || { echo "ERROR: not a bona fide ksh93" ; exit 1 ; }
