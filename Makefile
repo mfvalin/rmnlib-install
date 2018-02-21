@@ -24,18 +24,18 @@ phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} \
 	${SSM_REPOSITORY} \
 	${SSM_CACHE}/afsisio_1.0u_all.ssm \
 	${SSM_CACHE}/armnlib_2.0u_all.ssm
-	touch phase0
+	touch $@
 
 ##############################################################################################################
 # phase 1 : create installation master directory, install ssm
 ##############################################################################################################
 phase1: | phase0
 	make phase1.done
-	touch phase1
+	touch $@
 
 phase1.done: rmnlib-install.dot ${INSTALL_HOME} ${SSM_DOMAIN_HOME}
 	@printf '====================== phase 1 done ======================\n\n'
-	touch phase1.done
+	touch $@
 
 ##############################################################################################################
 # phase 2 : needs ssm
@@ -46,7 +46,7 @@ phase1.done: rmnlib-install.dot ${INSTALL_HOME} ${SSM_DOMAIN_HOME}
 phase2: | phase1
 	. ${SSM_DOMAIN_HOME}/etc/ssm.d/profile && \
 	  make phase2.done
-	touch phase2
+	touch $@
 
 # packages armnlib(data+include) and afsisio to be added here
 phase2.done: ${SSM_ENV_DOMAIN} \
@@ -65,7 +65,7 @@ phase2.done: ${SSM_ENV_DOMAIN} \
 	${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS} \
 	listd
 	@printf '====================== phase 2 done ======================\n\n'
-	touch phase2.done
+	touch $@
 
 ##############################################################################################################
 # phase 3 : needs ssm, tools installed in phase 2, and a user setup (compilers and tools)
@@ -76,7 +76,7 @@ phase3: | phase2
 	  . env-setup.dot && \
 	  export GIT_CACHE=${GIT_CACHE} && \
 	  make phase3.done
-	touch phase3
+	touch $@
 
 phase3.done: ${SSM_LIB_DOMAIN} \
 	${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64 \
@@ -84,7 +84,7 @@ phase3.done: ${SSM_LIB_DOMAIN} \
 	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64 \
         listd liste
 	@printf '====================== phase 3 done ======================\n\n'
-	touch phase3.done
+	touch $@
 
 ##############################################################################################################
 # phase 4 : needs ssm, tools and library sources installed in phases 2 and 3, 
@@ -96,17 +96,11 @@ phase4: | phase3 mpidependencies.done
 	  . env-setup.dot && \
 	  . r.load.dot ${SSM_LIB_DOMAIN} && \
 	  make phase4.done
-	touch phase4
+	touch $@
 
-phase4.done:
-	install_massvp4.sh ${DEFAULT_INSTALL_ARCH}
-	ssm publish -d ${SSM_LIB_DOMAIN} -p massvp4_1.0_linux26-x86-64 --force
-	install_rmnlib_016.sh ${DEFAULT_INSTALL_ARCH}
-	ssm publish -d ${SSM_LIB_DOMAIN} -p rmnlib_016.3_linux26-x86-64 --force
-	install_rpn_comm.sh ${DEFAULT_INSTALL_ARCH}
-	ssm publish -d ${SSM_LIB_DOMAIN} -p rpncomm_4.5.16_linux26-x86-64 --force
+phase4.done: massvp4.done rmnlib.done rpncomm.done
 	@printf '====================== phase 4 done ======================\n\n'
-	touch phase4.done
+	touch $@
 
 ##############################################################################################################
 
@@ -195,14 +189,14 @@ dependencies.done:
 	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  \
 	    { printf "ERROR: missing needed perl module $$i, try\n . ./get_perl_needed.dot ${GIT_CACHE}\n" ; exit 1 ; } \
 	    done 
-	touch dependencies.done
+	touch $@
 
 mpidependencies.done:
 	@printf "program mpi\ncall mpi_init(ierr)\nprint *,'Hello World'\ncall mpi_finalize(ierr)\nstop\nend\n" >mpitest.F90
 	@mpif90 -o mpitest.Abs mpitest.F90
 	@mpirun -n 2 ./mpitest.Abs
 	@rm -f mpitest.F90 mpitest.Abs
-	touch mpidependencies.done
+	touch $@
 
 ${SSM_REPOSITORY}:
 	mkdir -p $@
@@ -344,6 +338,11 @@ ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64: ${SSM_REPOSITORY}/massvp4_1.0_linu
 ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm:
 	tar zcf ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm --exclude=.git massvp4_1.0_linux26-x86-64
 
+massvp4.done:
+	install_massvp4.sh ${DEFAULT_INSTALL_ARCH}
+	ssm publish -d ${SSM_LIB_DOMAIN} -p massvp4_1.0_linux26-x86-64 --force
+	touch $@
+
 # rmnlib_016.3_linux26-x86-64
 ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64: ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm
 	ssm install --skipOnInstalled -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm
@@ -352,6 +351,11 @@ ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64: ${SSM_REPOSITORY}/rmnlib_016.3_li
 ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm:
 	tar zcf ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm --exclude=.git rmnlib_016.3_linux26-x86-64
 
+rmnlib.done:
+	install_rmnlib_016.sh ${DEFAULT_INSTALL_ARCH}
+	ssm publish -d ${SSM_LIB_DOMAIN} -p rmnlib_016.3_linux26-x86-64 --force
+	touch $@
+
 # rpncomm_4.5.16_linux26-x86-64
 ${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64: ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm
 	ssm install --skipOnInstalled -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm
@@ -359,6 +363,11 @@ ${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64: ${SSM_REPOSITORY}/rpncomm_4.5.1
 
 ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm:
 	tar zcf ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm --exclude=.git rpncomm_4.5.16_linux26-x86-64
+
+rpncomm.done:
+	install_rpn_comm.sh ${DEFAULT_INSTALL_ARCH}
+	ssm publish -d ${SSM_LIB_DOMAIN} -p rpncomm_4.5.16_linux26-x86-64 --force
+	touch $@
 
 # afsisio_1.0u_all
 ${SSM_ENV_DOMAIN}/afsisio_1.0u_all: $(SSM_REPOSITORY)/afsisio_1.0u_all.ssm
