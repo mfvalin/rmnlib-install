@@ -382,6 +382,7 @@ ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm:
 vgrid.done:
 	install_vgrid.sh ${DEFAULT_INSTALL_ARCH}
 	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+	touch $@
 
 # afsisio_1.0u_all
 ${SSM_ENV_DOMAIN}/afsisio_1.0u_all: $(SSM_REPOSITORY)/afsisio_1.0u_all.ssm

@@ -9,6 +9,6 @@ for Target in ${1:-/dev/gfortran} ; do
     [[ -n ${EC_ARCH} ]] || exit 1 ; \
     make distclean ; \
     make updlib ;\
-    make distclean ; \
+    make clean ; \
     )
 done
