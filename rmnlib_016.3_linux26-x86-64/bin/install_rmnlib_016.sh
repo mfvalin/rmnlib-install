@@ -20,7 +20,7 @@ for Target in ${1:-/dev/gfortran} ; do
     mkdir temp ; \
     cd temp || exit 1 ;\
     ar x ../librmn_016.3.1.a ; rm whiteboard_omp.o *ccard*.o ; s.f90 -shared -o ../librmnshared_016.3.1.so *.o ; cd .. ; rm -rf temp ; \
-    for i in librmn_016.so librmn.so ; do ln -sf librmnshared_016.3.1.so ${i} ; done ; \
+    for i in librmnshared_016.so librmnshared.so ; do ln -sf librmnshared_016.3.1.so ${i} ; done ; \
     popd ; \
     make distclean ; \
   )
