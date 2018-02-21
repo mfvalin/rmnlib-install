@@ -10,6 +10,8 @@ include rmnlib-install.cfg
 # phase 0 : populate the git cache and the ssm cache,  create package repository
 ##############################################################################################################
 phase0: ${SSM_CACHE} ${GIT_CACHE} ${INSTALL_HOME} \
+	@which git            || { echo "ERROR: git not found" ; exit 1 ; }
+	${GIT_CACHE}/perl_needed \
 	${GIT_CACHE}/ssm_fork.git \
 	${GIT_CACHE}/ssmuse_fork.git \
 	${GIT_CACHE}/ssm-wrappers.git \
@@ -23,7 +25,7 @@ phase0: ${SSM_CACHE} ${GIT_CACHE} ${INSTALL_HOME} \
 	${SSM_REPOSITORY} \
 	${SSM_CACHE}/afsisio_1.0u_all.ssm \
 	${SSM_CACHE}/armnlib_2.0u_all.ssm
-# 	touch phase0
+	touch phase0
 
 ##############################################################################################################
 # phase 1 : create installation master directory, install ssm
@@ -121,6 +123,9 @@ liste:
 ${GIT_CACHE}:
 	@echo "PLS create directory $@ (need ~50MBytes)" ; false
 
+${GIT_CACHE}/perl_needed:
+	git clone ${GIT_HOME}/perl_needed ${GIT_CACHE}/perl_needed
+
 ${GIT_CACHE}/ssm_fork.git:
 	git clone ${GIT_HOME}/ssm_fork ${GIT_CACHE}/ssm_fork.git
 
@@ -183,11 +188,11 @@ dependencies.done:
 	@which /bin/ksh93     || { echo "ERROR: /bin/ksh93 not found" ; exit 1 ; }
 	@echo "typeset -A aa; aa['tagada']='shimboum' ; typeset -Z4 n" | /bin/ksh93  || { echo "ERROR: not a bona fide ksh93" ; exit 1 ; }
 	@which gfortran       || { echo "ERROR: gfortran not found" ; exit 1 ; }
-	@which git            || { echo "ERROR: git not found" ; exit 1 ; }
 	@which python         || { echo "ERROR: python not found" ; exit 1 ; }
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
-	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  { echo "ERROR: missing needed perl module $$i" ; exit 1 ; } \
+	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  \
+	    { printf "ERROR: missing needed perl module $$i, try\n . ./get_perl_needed.dot ${GIT_CACHE}" ; exit 1 ; } \
 	    done 
 	touch dependencies.done
 

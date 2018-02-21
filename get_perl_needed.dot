@@ -1,0 +1,9 @@
+Where=${1:-IePaLaDuTout}
+(
+cd ${Where} || return 1
+[[ -d perl_needed ]] || git clone https://github.com/mfvalin/perl_needed
+cd perl_needed/src || return 1
+make
+)
+[[ -n ${PERL5LIB} ]] && export PERL5LIB=${PERL5LIB}:${Where}/perl_needed/PERL5LIB/lib/perl5
+[[ -z ${PERL5LIB} ]] && export PERL5LIB=${Where}/perl_needed/PERL5LIB/lib/perl5
