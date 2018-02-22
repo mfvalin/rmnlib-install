@@ -200,7 +200,9 @@ dependencies.done:
 	@which /bin/ksh       || { echo "ERROR: /bin/ksh not found" ; exit 1 ; }
 	@which /bin/ksh93     || { echo "ERROR: /bin/ksh93 not found" ; exit 1 ; }
 	@echo "typeset -A aa; aa['tagada']='shimboum' ; typeset -Z4 n" | /bin/ksh93  || { echo "ERROR: not a bona fide ksh93" ; exit 1 ; }
-	@which gfortran       || { echo "ERROR: gfortran not found" ; exit 1 ; }
+	@gfortran --version >gfortran.version      || { echo "ERROR: gfortran not found" ; exit 1 ; }
+	@mpif90 --version   >mpif90.version        || { echo "ERROR: mpif90 not found" ; exit 1 ; }
+	@diff -q gfortran.version mpif90.version   || { echo "ERROR: mpif90/gfortran version not the same" ; exit 1 ; }
 	@which python         || { echo "ERROR: python not found" ; exit 1 ; }
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
