@@ -3,7 +3,7 @@ SHELL = bash
 
 BH_PULL_SOURCE_GIT_BRANCH=6.1.1
 
-LIBRMNPATH = $(shell T=$$(s.locate --lib rmnshared) ; printf "$${T%/*})"
+LIBRMNPATH = $(shell T="$$(s.locate --lib rmnshared)" ; T=$${T:-Unknown} ; printf "$${T%/*}")
 
 ifeq ($(BASE_ARCH),$(EC_ARCH))
    $(info ERROR: please setup the compilation environment by typing the folowing:)
