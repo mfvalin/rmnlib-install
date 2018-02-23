@@ -33,6 +33,7 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/env-utils_1.0u_all.ssm \
 	${SSM_REPOSITORY}/code-tools_1.0_all.ssm \
+	${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm \
@@ -57,6 +58,7 @@ ENV_PACKAGES = \
 LIB_PACKAGES = \
 	${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64     \
 	${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64    \
+	${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64   \
 	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64  \
 	${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
 
@@ -351,7 +353,7 @@ ${SSM_ENV_DOMAIN}/r.gppf_1.0.1_linux26-x86-64: ${SSM_REPOSITORY}/r.gppf_1.0.1_li
 ${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm: r.gppf_1.0.1_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm --exclude=.git r.gppf_1.0.1_linux26-x86-64
 
-# massvp4_1.0_linux26-x86-64
+# massvp4
 massvp4.done: ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64
 	install_massvp4.sh ${DEFAULT_INSTALL_ARCH}
 	ssm publish -d ${SSM_LIB_DOMAIN} -p massvp4_1.0_linux26-x86-64 --force
@@ -361,13 +363,12 @@ ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64: ${SSM_REPOSITORY}/massvp4_1.0_linu
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p massvp4_1.0_linux26-x86-64 --force
 	touch ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64
-	echo "<<<<<<<<<<<<< ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64 >>>>>>>>>>>>>>>"
 
 ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm: massvp4_1.0_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm --exclude=.git massvp4_1.0_linux26-x86-64
 	rm -f massvp4.done
 
-# rmnlib_016.3_linux26-x86-64
+# rmnlib
 rmnlib.done: ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64
 	install_rmnlib_016.sh ${DEFAULT_INSTALL_ARCH}
 	ssm publish -d ${SSM_LIB_DOMAIN} -p rmnlib_016.3_linux26-x86-64 --force
@@ -382,7 +383,22 @@ ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm: rmnlib_016.3_linux26-x86-64 $
 	tar zcf ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm --exclude=.git rmnlib_016.3_linux26-x86-64
 	rm -f rmnlib.done
 
-# rpncomm_4.5.16_linux26-x86-64
+#makebidon
+makebidon.done: ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64
+	install_rpn_comm.sh ${DEFAULT_INSTALL_ARCH}
+	ssm publish -d ${SSM_LIB_DOMAIN} -p makebidon_1.1_linux26-x86-64 --force
+	touch $@
+
+${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64: ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm
+	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm
+	ssm publish -d ${SSM_LIB_DOMAIN} -p makebidon_1.1_linux26-x86-64 --force
+	touch ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64
+
+${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm: makebidon_1.1_linux26-x86-64 ${GIT_CACHE}/rpncomm
+	tar zcf ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm --exclude=.git makebidon_1.1_linux26-x86-64
+	rm -f makebidon.done
+
+# rpncomm
 rpncomm.done: ${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64
 	install_rpn_comm.sh ${DEFAULT_INSTALL_ARCH}
 	ssm publish -d ${SSM_LIB_DOMAIN} -p rpncomm_4.5.16_linux26-x86-64 --force
@@ -398,17 +414,18 @@ ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm: rpncomm_4.5.16_linux26-x86-
 	rm -f rpncomm.done
 
 # vgrid descriptors
+vgrid.done: ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
+	install_vgrid.sh ${DEFAULT_INSTALL_ARCH}
+	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+	touch $@
+
 ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
 
 ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm: vgrid_6.1.gnu_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm --exclude=.git vgrid_6.1.gnu_linux26-x86-64
-
-vgrid.done:
-	install_vgrid.sh ${DEFAULT_INSTALL_ARCH}
-	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
-	touch $@
+	rm -f rpncomm.done
 
 # afsisio_1.0u_all
 ${SSM_ENV_DOMAIN}/afsisio_1.0u_all: $(SSM_REPOSITORY)/afsisio_1.0u_all.ssm
