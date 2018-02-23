@@ -375,7 +375,7 @@ massvp4.done: ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64
 ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64: ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p massvp4_1.0_linux26-x86-64 --force
-	touch ${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64
+	touch $@
 
 ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm: massvp4_1.0_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm --exclude=.git massvp4_1.0_linux26-x86-64
@@ -390,7 +390,7 @@ rmnlib.done: ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64
 ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64: ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p rmnlib_016.3_linux26-x86-64 --force
-	touch ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64
+	touch $@
 
 ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm: rmnlib_016.3_linux26-x86-64 ${GIT_CACHE}/librmn
 	tar zcf ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm --exclude=.git rmnlib_016.3_linux26-x86-64
@@ -405,7 +405,7 @@ makebidon.done: ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64
 ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64: ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p makebidon_1.1_linux26-x86-64 --force
-	touch ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64
+	touch $@
 
 ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm: makebidon_1.1_linux26-x86-64 ${GIT_CACHE}/rpncomm
 	tar zcf ${SSM_REPOSITORY}/makebidon_1.1_linux26-x86-64.ssm --exclude=.git makebidon_1.1_linux26-x86-64
@@ -420,7 +420,7 @@ rpncomm.done: ${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64
 ${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64: ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p rpncomm_4.5.16_linux26-x86-64 --force
-	touch ${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64
+	touch $@
 
 ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm: rpncomm_4.5.16_linux26-x86-64 ${GIT_CACHE}/rpncomm
 	tar zcf ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm --exclude=.git rpncomm_4.5.16_linux26-x86-64
@@ -435,6 +435,7 @@ vgrid.done: ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
 ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+	touch $@
 
 ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm: vgrid_6.1.gnu_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm --exclude=.git vgrid_6.1.gnu_linux26-x86-64
