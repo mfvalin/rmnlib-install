@@ -1,3 +1,6 @@
+
+SHELL = bash
+
 BH_PULL_SOURCE_GIT_BRANCH=6.1.1
 
 LIBRMNPATH = $(shell T=$$(s.locate --lib rmnshared) ; printf $${T%/*})
@@ -28,7 +31,7 @@ include dependencies.mk
 	s.cc -fpic -c $(MY_CFLAGS) $<
 
 libdescrip.a: $(OBJECTS) vgrid_version dependencies.mk
-	rm -f libdescrip.a && ar scru libdescrip.a *.o 
+	rm -f libdescrip.a && ar rcv libdescrip.a *.o 
 
 shared: libdescrip.a
 	s.f90 -shared -o libdescripshared.so *.o -lrmnshared$(SHARED_RNM_EXT)  -Wl,-rpath,${LIBRMNPATH}
