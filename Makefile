@@ -438,7 +438,7 @@ ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_6.1.gnu_
 
 ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm: vgrid_6.1.gnu_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm --exclude=.git vgrid_6.1.gnu_linux26-x86-64
-	rm -f rpncomm.done
+	rm -f vgrid.done
 
 # afsisio_1.0u_all
 ${SSM_ENV_DOMAIN}/afsisio_1.0u_all: $(SSM_REPOSITORY)/afsisio_1.0u_all.ssm
