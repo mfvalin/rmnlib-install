@@ -124,7 +124,7 @@ phase4.done: massvp4.done rmnlib.done rpncomm.done vgrid.done
 ##############################################################################################################
 # phase 5 : needs ssm, tools and libraries installed in phases 2, 3 and 4
 #           and a full user setup (compilers, tools and libraries)
-#           compile and publish libraries
+#           compile and publish tools
 ##############################################################################################################
 phase5: | phase4 phase3 phase2 phase1 phase0 mpidependencies.done ${ENV_PACKAGES}
 	${WITH_LIB_SETUP} && make phase5.done
