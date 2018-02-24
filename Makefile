@@ -117,7 +117,7 @@ phase4: | phase3 phase2 phase1 phase0 mpidependencies.done ${ENV_PACKAGES}
 	${WITH_LIB_SETUP} && make phase4.done
 	touch $@
 
-phase4.done: massvp4.done rmnlib.done rpncomm.done vgrid.done
+phase4.done: massvp4.done rmnlib.done makebidon.done rpncomm.done vgrid.done
 	@printf '====================== phase 4 done ======================\n\n'
 	touch $@
 
