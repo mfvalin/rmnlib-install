@@ -15,7 +15,7 @@ for Target in ${1:-/dev/gfortran} ; do
     make all stublib ; \
     [[ -f ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a ]] ||  { echo "ERROR: failed to create librpn_comm" ; exit 1 ; } ; \
     [[ -f ../lib/${EC_ARCH}/librpn_commstubs_${INSTALLED_VERSION}.a ]] ||  { echo "ERROR: failed to create librpn_comm_stubs" ; exit 1 ; } ; \
-    nobjects=$(ar tv librpn_comm_${INSTALLED_VERSION}.a | wc -l) ; \
+    nobjects=$(ar tv ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a | wc -l) ; \
     ((${nobject}s>=99)) ||  { echo "ERROR: missing objects in librpn_comm_${INSTALLED_VERSION}.a" ; exit 1 ; } ; \
     mkdir -p ../../lib/${EC_ARCH} ; \
     mkdir -p ../../include/${EC_ARCH} ; \
