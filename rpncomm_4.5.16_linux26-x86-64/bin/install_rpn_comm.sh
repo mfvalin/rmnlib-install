@@ -13,13 +13,17 @@ for Target in ${1:-/dev/gfortran} ; do
     make clean ; \
     make itf ; \
     make all stublib ; \
+    [[ -f ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a ]] ||  { echo "ERROR: failed to create librpn_comm" ; exit 1 ; } ; \
+    [[ -f ../lib/${EC_ARCH}/librpn_commstubs_${INSTALLED_VERSION}.a ]] ||  { echo "ERROR: failed to create librpn_comm_stubs" ; exit 1 ; } ; \
+    nobjects=$(ar tv librpn_comm_${INSTALLED_VERSION}.a | wc -l) ; \
+    ((${nobject}s>=99)) ||  { echo "ERROR: missing objects in librpn_comm_${INSTALLED_VERSION}.a" ; exit 1 ; } ; \
     mkdir -p ../../lib/${EC_ARCH} ; \
     mkdir -p ../../include/${EC_ARCH} ; \
     cp ../include/${EC_ARCH}/* ../../include/${EC_ARCH} ; \
-    [[ -f ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a ]] && mv ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a ../../lib/${EC_ARCH} ; \
-    [[ -f ../lib/${EC_ARCH}/librpn_commstubs_${INSTALLED_VERSION}.a ]] && mv ../lib/${EC_ARCH}/librpn_commstubs_${INSTALLED_VERSION}.a ../../lib/${EC_ARCH} ; \
+    mv ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a ../../lib/${EC_ARCH} ; \
+    mv ../lib/${EC_ARCH}/librpn_commstubs_${INSTALLED_VERSION}.a ../../lib/${EC_ARCH} ; \
     pushd ../../lib/${EC_ARCH} ; \
-    echo "===== library contains $(ar tv librpn_comm_${INSTALLED_VERSION}.a | wc -l) objects ====="
+    echo "===== library contains ${nobjects} objects ====="
     for i in librpn_comm_4051609.a librpn_comm.a ; do ln -sf librpn_comm_${INSTALLED_VERSION}.a ${i} ; done ; \
     for i in librpn_commstubs_4051609.a librpn_commstubs.a ; do ln -sf librpn_commstubs_${INSTALLED_VERSION}.a ${i} ; done ; \
     popd ; \

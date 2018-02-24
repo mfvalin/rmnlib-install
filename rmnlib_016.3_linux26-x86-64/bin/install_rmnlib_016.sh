@@ -10,12 +10,15 @@ for Target in ${1:-/dev/gfortran} ; do
     make distclean ; \
     make genlib ; \
     mkdir -p ../lib/${EC_ARCH} ; \
-    [[ -f ${EC_ARCH}/librmn_016.3.1.a ]] && mv ${EC_ARCH}/librmn_016.3.1.a ../lib/${EC_ARCH} ; \
+    [[ -f ${EC_ARCH}/librmn_016.3.1.a ]] || { echo "ERROR: failed to create librmn_016.3.1.a" ; exit 1 ; } ; \
+    nobjects=$(ar tv ${EC_ARCH}/librmn_016.3.1.a | wc -l) ; \
+    ((${nobject}s>=282)) ||  { echo "ERROR: missing objects in librmn_016.3.1.a" ; exit 1 ; } ; \
+    mv ${EC_ARCH}/librmn_016.3.1.a ../lib/${EC_ARCH} ; \
     mkdir -p ../include/${EC_ARCH} ; \
     cp PUBLIC_INCLUDES/* ../include/${EC_ARCH} ; \
     cp PUBLIC_INCLUDES/* ../include ; \
     pushd ../lib/${EC_ARCH} ; \
-    echo "===== library contains $(ar tv librmn_016.3.1.a | wc -l) objects ====="
+    echo "===== library contains ${nobjects} objects ====="
     for i in librmn_016.2.a librmn_016.a librmn.a librmnMP_016.2.a ; do ln -sf librmn_016.3.1.a ${i} ; done ; \
     mkdir temp ; \
     cd temp || exit 1 ;\
