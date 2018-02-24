@@ -398,7 +398,7 @@ ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm: rmnlib_016.3_linux26-x86-64 $
 
 #makebidon
 makebidon.done: ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64
-	install_rpn_comm.sh ${DEFAULT_INSTALL_ARCH}
+	install_makebidon.sh ${DEFAULT_INSTALL_ARCH}
 	ssm publish -d ${SSM_LIB_DOMAIN} -p makebidon_1.1_linux26-x86-64 --force
 	touch $@
 
