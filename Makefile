@@ -11,11 +11,14 @@ WITH_SSM_SETUP   = ${WITH_SSM_BASE} && . env-setup.dot && export GIT_CACHE=${GIT
 
 WITH_LIB_SETUP   = ${WITH_SSM_SETUP} && . r.load.dot ${SSM_LIB_DOMAIN}
 
-default: phase5
+default: update
 
 update:
 	rm -f phase*
-	make
+	make phase5
+
+install:
+	make phase5
 
 SSM_PACKAGES = \
 	${GIT_CACHE}/librmn \
