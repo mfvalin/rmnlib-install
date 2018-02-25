@@ -97,10 +97,11 @@ ENV_PACKAGES = \
 	${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}
 
 LIB_PACKAGES = \
-	${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64     \
-	${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64    \
-	${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64   \
-	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64  \
+	${SSM_LIB_DOMAIN}/massvp4_1.0_linux26-x86-64        \
+	${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64       \
+	${SSM_LIB_DOMAIN}/utils-rmnlib_1.0_linux26-x86-64   \
+	${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64      \
+	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64     \
 	${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
 
 ##############################################################################################################
