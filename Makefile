@@ -17,12 +17,14 @@ update:
 	rm -f phase*
 	make phase5
 
+gitcache: ${GIT_PACKAGES}
+
 install:
 	make phase5
 
 GIT_ARMNLIB = https://github.com/armnlib
 
-GIT_PACKAGES: \
+GIT_PACKAGES = \
 	${GIT_CACHE}/bemol \
 	${GIT_CACHE}/clonage \
 	${GIT_CACHE}/cmc_log \
