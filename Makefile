@@ -50,7 +50,7 @@ GIT_PACKAGES = \
 
 SSM_PACKAGES = \
 	${GIT_CACHE}/librmn \
-	${GIT_CACHE}/rpncomm \	
+	${GIT_CACHE}/rpncomm \
 	${SSM_REPOSITORY}/afsisio_1.0u_all.ssm \
 	${SSM_REPOSITORY}/armnlib_2.0u_all.ssm \
 	${SSM_REPOSITORY}/ssm_10.151_all.ssm \
