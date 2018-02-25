@@ -20,9 +20,35 @@ update:
 install:
 	make phase5
 
+GIT_ARMNLIB = https://github.com/armnlib
+
+GIT_PACKAGES: \
+	${GIT_CACHE}/bemol \
+	${GIT_CACHE}/clonage \
+	${GIT_CACHE}/cmc_log \
+	${GIT_CACHE}/dbzono \
+	${GIT_CACHE}/editbrp \
+	${GIT_CACHE}/editfst \
+	${GIT_CACHE}/fstcomp \
+	${GIT_CACHE}/fstcompress \
+	${GIT_CACHE}/fstinfo \
+	${GIT_CACHE}/fststat \
+	${GIT_CACHE}/fstxml \
+	${GIT_CACHE}/ip1newstyle \
+	${GIT_CACHE}/misc \
+	${GIT_CACHE}/pgsm \
+	${GIT_CACHE}/r.crc \
+	${GIT_CACHE}/r.date \
+	${GIT_CACHE}/r.dict \
+	${GIT_CACHE}/r.hy2press \
+	${GIT_CACHE}/r.ip1 \
+	${GIT_CACHE}/r.ip123 \
+	${GIT_CACHE}/reflex \
+	${GIT_CACHE}/voir
+
 SSM_PACKAGES = \
 	${GIT_CACHE}/librmn \
-	${GIT_CACHE}/rpncomm \
+	${GIT_CACHE}/rpncomm \	
 	${SSM_REPOSITORY}/afsisio_1.0u_all.ssm \
 	${SSM_REPOSITORY}/armnlib_2.0u_all.ssm \
 	${SSM_REPOSITORY}/ssm_10.151_all.ssm \
@@ -151,6 +177,72 @@ liste:
 
 ${GIT_CACHE}:
 	@echo "PLS create directory $@ (need ~50MBytes)" ; false
+
+${GIT_CACHE}/bemol:
+	git clone ${GIT_ARMNLIB}/bemol ${GIT_CACHE}/bemol
+
+${GIT_CACHE}/clonage:
+	git clone ${GIT_ARMNLIB}/clonage ${GIT_CACHE}/clonage
+
+${GIT_CACHE}/cmc_log:
+	git clone ${GIT_ARMNLIB}/cmc_log ${GIT_CACHE}/cmc_log
+
+${GIT_CACHE}/dbzono:
+	git clone ${GIT_ARMNLIB}/dbzono ${GIT_CACHE}/dbzono
+
+${GIT_CACHE}/editbrp:
+	git clone ${GIT_ARMNLIB}/editbrp ${GIT_CACHE}/editbrp
+
+${GIT_CACHE}/editfst:
+	git clone ${GIT_ARMNLIB}/editfst ${GIT_CACHE}/editfst
+
+${GIT_CACHE}/fstcomp:
+	git clone ${GIT_ARMNLIB}/fstcomp ${GIT_CACHE}/fstcomp
+
+${GIT_CACHE}/fstcompress:
+	git clone ${GIT_ARMNLIB}/fstcompress ${GIT_CACHE}/fstcompress
+
+${GIT_CACHE}/fstinfo:
+	git clone ${GIT_ARMNLIB}/fstinfo ${GIT_CACHE}/fstinfo
+
+${GIT_CACHE}/fststat:
+	git clone ${GIT_ARMNLIB}/fststat ${GIT_CACHE}/fststat
+
+${GIT_CACHE}/fstxml:
+	git clone ${GIT_ARMNLIB}/fstxml ${GIT_CACHE}/fstxml
+
+${GIT_CACHE}/ip1newstyle:
+	git clone ${GIT_ARMNLIB}/ip1newstyle ${GIT_CACHE}/ip1newstyle
+
+${GIT_CACHE}/misc:
+	git clone ${GIT_ARMNLIB}/misc ${GIT_CACHE}/misc
+
+${GIT_CACHE}/pgsm:
+	git clone ${GIT_ARMNLIB}/pgsm ${GIT_CACHE}/pgsm
+
+${GIT_CACHE}/r.crc:
+	git clone ${GIT_ARMNLIB}/r.crc ${GIT_CACHE}/r.crc
+
+${GIT_CACHE}/r.date:
+	git clone ${GIT_ARMNLIB}/r.date ${GIT_CACHE}/r.date
+
+${GIT_CACHE}/r.dict:
+	git clone ${GIT_ARMNLIB}/r.dict ${GIT_CACHE}/r.dict
+
+${GIT_CACHE}/r.hy2press:
+	git clone ${GIT_ARMNLIB}/r.hy2press ${GIT_CACHE}/r.hy2press
+
+${GIT_CACHE}/r.ip1:
+	git clone ${GIT_ARMNLIB}/r.ip1 ${GIT_CACHE}/r.ip1
+
+${GIT_CACHE}/r.ip123:
+	git clone ${GIT_ARMNLIB}/r.ip123 ${GIT_CACHE}/r.ip123
+
+${GIT_CACHE}/reflex:
+	git clone ${GIT_ARMNLIB}/reflex ${GIT_CACHE}/reflex
+
+${GIT_CACHE}/voir:
+	git clone ${GIT_ARMNLIB}/voir ${GIT_CACHE}/voir
 
 ${GIT_CACHE}/perl_needed:
 	git clone ${GIT_HOME}/perl_needed ${GIT_CACHE}/perl_needed
