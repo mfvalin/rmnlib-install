@@ -1,0 +1,16 @@
+#!/bin/ksh
+domainHome=$1
+packageHome=$2
+profileDirPath=${packageHome}/etc/profile.d
+packageName=${packageHome##*/}
+profilePath=${profileDirPath}/${packageName}.sh
+mkdir -p ${profileDirPath}
+#echo "#${packageName%%_*}_HOME=${packageHome}" >> ${profilePath}
+mkdir ${packageHome}/Repositories
+cd ${packageHome}/Repositories || exit 1
+for Target in cmc_log editbrp fstcomp fstinfo fstxml misc r.crc r.dict r.ip1 reflex bemol clonage dbzono editfst fstcompress fststat ip1newstyle pgsm r.date r.hy2press r.ip123 voir 
+do
+  git clone ${GIT_CACHE:-${HOME}/GIT_CACHE}/${Target}
+done
+find ${packageHome}/Patches -type f -exec touch {} \;    # force update
+rsync -aruvxlH ${packageHome}/Patches/. ${packageHome}/Repositories

@@ -23,6 +23,8 @@ install:
 GIT_ARMNLIB = https://github.com/armnlib
 
 GIT_PACKAGES = \
+	${GIT_CACHE}/librmn \
+	${GIT_CACHE}/rpncomm \
 	${GIT_CACHE}/bemol \
 	${GIT_CACHE}/clonage \
 	${GIT_CACHE}/cmc_log \
@@ -49,8 +51,6 @@ GIT_PACKAGES = \
 gitcache: ${GIT_PACKAGES}
 
 SSM_PACKAGES = \
-	${GIT_CACHE}/librmn \
-	${GIT_CACHE}/rpncomm \
 	${SSM_REPOSITORY}/afsisio_1.0u_all.ssm \
 	${SSM_REPOSITORY}/armnlib_2.0u_all.ssm \
 	${SSM_REPOSITORY}/ssm_10.151_all.ssm \
@@ -68,6 +68,7 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/massvp4_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm \
+	${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
 
@@ -148,7 +149,7 @@ phase4: | phase3 phase2 phase1 phase0 mpidependencies.done ${ENV_PACKAGES}
 	${WITH_LIB_SETUP} && make phase4.done
 	touch $@
 
-phase4.done: massvp4.done rmnlib.done makebidon.done rpncomm.done vgrid.done
+phase4.done: massvp4.done rmnlib.done makebidon.done rpncomm.done vgrid.done utilities.done
 	@printf '====================== phase 4 done ======================\n\n'
 	touch $@
 
@@ -492,6 +493,21 @@ ${SSM_LIB_DOMAIN}/rmnlib_016.3_linux26-x86-64: ${SSM_REPOSITORY}/rmnlib_016.3_li
 ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm: rmnlib_016.3_linux26-x86-64 ${GIT_CACHE}/librmn
 	tar zcf ${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm --exclude=.git rmnlib_016.3_linux26-x86-64
 	rm -f rmnlib.done
+
+# rmnlib associated utilities
+utilities.done: ${SSM_LIB_DOMAIN}/utils-rmnlib_1.0_linux26-x86-64
+	install_rmnlib_utils.sh ${DEFAULT_INSTALL_ARCH}
+	ssm publish -d ${SSM_LIB_DOMAIN} -p utils-rmnlib_1.0_linux26-x86-64 --force
+	touch $@
+
+${SSM_LIB_DOMAIN}/utils-rmnlib_1.0_linux26-x86-64: ${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm
+	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm
+	ssm publish -d ${SSM_LIB_DOMAIN} -p utils-rmnlib_1.0_linux26-x86-64 --force
+	touch $@
+
+${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm: utils-rmnlib_1.0_linux26-x86-64 ${GIT_CACHE}/librmn
+	tar zcf ${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm --exclude=.git utils-rmnlib_1.0_linux26-x86-64
+	rm -f utilities.done
 
 #makebidon
 makebidon.done: ${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64
