@@ -6,7 +6,7 @@ packageName=${packageHome##*/}
 profilePath=${profileDirPath}/${packageName}.sh
 mkdir -p ${profileDirPath}
 #echo "#${packageName%%_*}_HOME=${packageHome}" >> ${profilePath}
-mkdir ${packageHome}/Repositories
+mkdir -p ${packageHome}/Repositories
 cd ${packageHome}/Repositories || exit 1
 for Target in cmc_log editbrp fstcomp fstinfo fstxml misc r.crc r.dict r.ip1 reflex bemol clonage dbzono editfst fstcompress fststat ip1newstyle pgsm r.date r.hy2press r.ip123 voir 
 do
