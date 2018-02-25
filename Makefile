@@ -20,6 +20,9 @@ update:
 install:
 	make phase5
 
+rmnlib-install.cfg:
+	cp default-install.cfg rmnlib-install.cfg
+
 GIT_ARMNLIB = https://github.com/armnlib
 
 GIT_PACKAGES = \
