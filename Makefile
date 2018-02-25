@@ -23,6 +23,15 @@ install:
 GIT_ARMNLIB = https://github.com/armnlib
 
 GIT_PACKAGES = \
+	${GIT_CACHE}/ssm_fork.git \
+	${GIT_CACHE}/ssmuse_fork.git \
+	${GIT_CACHE}/ssm-wrappers.git \
+	${GIT_CACHE}/dot-profile-setup \
+	${GIT_CACHE}/shortcut-tools \
+	${GIT_CACHE}/cmcarc_fork \
+	${GIT_CACHE}/env-utils \
+	${GIT_CACHE}/code-tools \
+	${GIT_CACHE}/perl_needed \
 	${GIT_CACHE}/librmn \
 	${GIT_CACHE}/rpncomm \
 	${GIT_CACHE}/bemol \
