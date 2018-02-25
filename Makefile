@@ -17,8 +17,6 @@ update:
 	rm -f phase*
 	make phase5
 
-gitcache: ${GIT_PACKAGES}
-
 install:
 	make phase5
 
@@ -47,6 +45,8 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/r.ip123 \
 	${GIT_CACHE}/reflex \
 	${GIT_CACHE}/voir
+
+gitcache: ${GIT_PACKAGES}
 
 SSM_PACKAGES = \
 	${GIT_CACHE}/librmn \
