@@ -406,7 +406,6 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 # etagere
 ${SSM_ENV_DOMAIN}/etagere_1.0_all: ${SSM_REPOSITORY}/etagere_1.0_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/etagere_1.0_all.ssm
-	( cd ${SSM_ENV_DOMAIN}/etagere_1.0_all/src && make ; )
 	ssm publish -d ${SSM_ENV_DOMAIN} -p etagere_1.0_all --force
 
 ${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/etagere_1.0_all
@@ -417,7 +416,6 @@ ${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/etagere_1.0_all
 # rde , branch=export
 ${SSM_ENV_DOMAIN}/rde_1.0.8e_all: ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
-	( cd ${SSM_ENV_DOMAIN}/rde_1.0.8e_all/src && make ; )
 	ssm publish -d ${SSM_ENV_DOMAIN} -p rde_1.0.8e_all --force
 
 ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm: ${GIT_CACHE}/rde_1.0.8e_all
