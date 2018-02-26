@@ -25,6 +25,8 @@ rmnlib-install.cfg:
 
 GIT_ARMNLIB = https://github.com/armnlib
 
+GIT_PYRPN = https://github.com/meteokid
+
 GIT_PACKAGES = \
 	${GIT_CACHE}/ssm_fork.git \
 	${GIT_CACHE}/ssmuse_fork.git \
@@ -58,7 +60,8 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/r.ip1 \
 	${GIT_CACHE}/r.ip123 \
 	${GIT_CACHE}/reflex \
-	${GIT_CACHE}/voir
+	${GIT_CACHE}/voir \
+	${GIT_CACHE}/python-rpn
 
 gitcache: ${GIT_PACKAGES}
 
@@ -193,6 +196,13 @@ liste:
 
 ${GIT_CACHE}:
 	@echo "PLS create directory $@ (need ~50MBytes)" ; false
+
+${GIT_CACHE}/python-rpn:
+	git clone ${GIT_PYRPN}/python-rpn ${GIT_CACHE}/python-rpn
+	cd ${GIT_CACHE}/python-rpn ; \
+	for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do    \
+	  git branch --track $${branch#remotes/origin/} $$branch; \
+	done
 
 ${GIT_CACHE}/bemol:
 	git clone ${GIT_ARMNLIB}/bemol ${GIT_CACHE}/bemol
