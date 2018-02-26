@@ -171,11 +171,11 @@ phase3.done: ${SSM_LIB_DOMAIN} ${LIB_PACKAGES} \
 #           and a user setup (compilers and tools)
 #           compile and publish libraries
 ##############################################################################################################
-phase4: | phase3 phase2 phase1 phase0 mpidependencies.done ${ENV_PACKAGES}
+phase4: | phase3 phase2 phase1 phase0 mpidependencies.done
 	${WITH_LIB_SETUP} && make phase4.done
 	touch $@
 
-phase4.done: massvp4.done rmnlib.done makebidon.done rpncomm.done vgrid.done utilities.done
+phase4.done: massvp4.done rmnlib.done makebidon.done rpncomm.done vgrid.done utilities.done ${ENV_PACKAGES}
 	@printf '====================== phase 4 done ======================\n\n'
 	touch $@
 
@@ -184,11 +184,11 @@ phase4.done: massvp4.done rmnlib.done makebidon.done rpncomm.done vgrid.done uti
 #           and a full user setup (compilers, tools and libraries)
 #           compile and publish tools
 ##############################################################################################################
-phase5: | phase4 phase3 phase2 phase1 phase0 mpidependencies.done ${ENV_PACKAGES}
+phase5: | phase4 phase3 phase2 phase1 phase0 mpidependencies.done
 	${WITH_LIB_SETUP} && make phase5.done
 	touch $@
 
-phase5.done:
+phase5.done: ${ENV_PACKAGES}
 	@printf '====================== phase 5 done ======================\n\n'
 	touch $@
 
