@@ -65,7 +65,9 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/r.ip123 \
 	${GIT_CACHE}/reflex \
 	${GIT_CACHE}/voir \
-	${GIT_CACHE}/python-rpn
+	${GIT_CACHE}/python-rpn \
+	${GIT_CACHE}/etagere_1.0_all \
+	${GIT_CACHE}/rde_1.0.8e_all
 
 gitcache: ${GIT_PACKAGES}
 
@@ -74,6 +76,8 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/armnlib_2.0u_all.ssm \
 	${SSM_REPOSITORY}/ssm_10.151_all.ssm \
 	${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm \
+	${SSM_REPOSITORY}/etagere_1.0_all.ssm \
+	${SSM_REPOSITORY}/rde_1.0.8e_all.ssm \
 	${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm \
 	${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm \
 	${SSM_REPOSITORY}/env-setup_003_all.ssm \
@@ -200,6 +204,16 @@ liste:
 
 ${GIT_CACHE}:
 	@echo "PLS create directory $@ (need ~50MBytes)" ; false
+
+${GIT_CACHE}/rde_1.0.8e_all:
+	git clone ${GIT_HOME}/rde-fork ${GIT_CACHE}/rde_1.0.8e_all
+	cd ${GIT_CACHE}/rde_1.0.8e_all ; \
+	for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do    \
+	  git branch --track $${branch#remotes/origin/} $$branch; \
+	done
+
+${GIT_CACHE}/etagere_1.0_all:
+	git clone ${GIT_HOME}/etagere ${GIT_CACHE}/etagere_1.0_all
 
 ${GIT_CACHE}/python-rpn:
 	git clone ${GIT_PYRPN}/python-rpn ${GIT_CACHE}/python-rpn
@@ -386,6 +400,29 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 	    --domainHome ${SSM_DOMAIN_HOME} \
 	    --ssmRepositoryUrl ${SSM_REPOSITORY} \
 	    --defaultRepositorySource ${SSM_REPOSITORY}
+
+# etagere
+${SSM_ENV_DOMAIN}/etagere_1.0_all: ${SSM_REPOSITORY}/etagere_1.0_all.ssm
+	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/etagere_1.0_all.ssm
+	( cd ${SSM_ENV_DOMAIN}/etagere_1.0_all/src && make ; )
+	ssm publish -d ${SSM_ENV_DOMAIN} -p etagere_1.0_all --force
+
+${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/perl_needed
+	cd ${SSM_REPOSITORY} && rm -rf etagere_1.0_all && \
+	  git clone ${GIT_CACHE}/etagere_1.0_all etagere_1.0_all && \
+	  tar zcf etagere_1.0_all.ssm  --exclude=.git etagere_1.0_all
+
+# rde , branch=export
+${SSM_ENV_DOMAIN}/rde_1.0.8e_all: ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
+	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
+	( cd ${SSM_ENV_DOMAIN}/rde_1.0.8e_all/src && make ; )
+	ssm publish -d ${SSM_ENV_DOMAIN} -p rde_1.0.8e_all --force
+
+${SSM_REPOSITORY}/rde_1.0.8e_all.ssm: ${GIT_CACHE}/perl_needed
+	cd ${SSM_REPOSITORY} && rm -rf rde_1.0.8e_all && \
+	  git clone ${GIT_CACHE}/rde_1.0.8e_all rde_1.0.8e_all && \
+	  cd rde_1.0.8e_all && git checkout export && cd .. && \
+	  tar zcf rde_1.0.8e_all.ssm  --exclude=.git rde_1.0.8e_all
 
 # perl-needed
 ${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64: ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm
