@@ -409,7 +409,7 @@ ${SSM_ENV_DOMAIN}/etagere_1.0_all: ${SSM_REPOSITORY}/etagere_1.0_all.ssm
 	( cd ${SSM_ENV_DOMAIN}/etagere_1.0_all/src && make ; )
 	ssm publish -d ${SSM_ENV_DOMAIN} -p etagere_1.0_all --force
 
-${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/perl_needed
+${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/etagere_1.0_all
 	cd ${SSM_REPOSITORY} && rm -rf etagere_1.0_all && \
 	  git clone ${GIT_CACHE}/etagere_1.0_all etagere_1.0_all && \
 	  tar zcf etagere_1.0_all.ssm  --exclude=.git etagere_1.0_all
@@ -420,7 +420,7 @@ ${SSM_ENV_DOMAIN}/rde_1.0.8e_all: ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
 	( cd ${SSM_ENV_DOMAIN}/rde_1.0.8e_all/src && make ; )
 	ssm publish -d ${SSM_ENV_DOMAIN} -p rde_1.0.8e_all --force
 
-${SSM_REPOSITORY}/rde_1.0.8e_all.ssm: ${GIT_CACHE}/perl_needed
+${SSM_REPOSITORY}/rde_1.0.8e_all.ssm: ${GIT_CACHE}/rde_1.0.8e_all
 	cd ${SSM_REPOSITORY} && rm -rf rde_1.0.8e_all && \
 	  git clone ${GIT_CACHE}/rde_1.0.8e_all rde_1.0.8e_all && \
 	  cd rde_1.0.8e_all && git checkout export && cd .. && \
