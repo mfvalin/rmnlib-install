@@ -1,5 +1,5 @@
 export ENV_RELEASE=${ENV_RELEASE:-003}
-[[ -d ${SSM_DOMAIN_HOME%/*}/base_${ENV_RELEASE} ]] && . ssmuse-sh -d ${SSM_DOMAIN_HOME%/*}/base_${ENV_RELEASE}
+#[[ -d ${SSM_DOMAIN_HOME%/*}/base_${ENV_RELEASE} ]] && . ssmuse-sh -d ${SSM_DOMAIN_HOME%/*}/base_${ENV_RELEASE}
 . .profile_00000
 #
 [[ -d ${SSM_DOMAIN_HOME%/*}/env_${ENV_RELEASE} ]] && . ssmuse-sh -d ${SSM_DOMAIN_HOME%/*}/env_${ENV_RELEASE}
