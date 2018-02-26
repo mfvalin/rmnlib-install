@@ -110,7 +110,7 @@ LIB_PACKAGES = \
 ##############################################################################################################
 # phase 0 : populate the git cache and the ssm cache,  create package repository
 ##############################################################################################################
-phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} ${SSM_REPOSITORY}
+phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} ${SSM_REPOSITORY} ${GIT_PACKAGES}
 	touch $@
 
 ##############################################################################################################
