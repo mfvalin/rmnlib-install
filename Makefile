@@ -108,8 +108,8 @@ ENV_PACKAGES = \
 	${SSM_ENV_DOMAIN}/r.gppf_1.0.1_linux26-x86-64 \
 	${SSM_ENV_DOMAIN}/afsisio_1.0u_all \
 	${SSM_ENV_DOMAIN}/armnlib_2.0u_all \
-	${SSM_ENV_DOMAIN}/etagere_1.0_all.ssm \
-	${SSM_ENV_DOMAIN}/rde_1.0.8e_all.ssm \
+	${SSM_ENV_DOMAIN}/etagere_1.0_all \
+	${SSM_ENV_DOMAIN}/rde_1.0.8e_all \
 	${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}
 
 LIB_PACKAGES = \
