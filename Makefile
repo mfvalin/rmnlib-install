@@ -141,7 +141,7 @@ phase2: | phase1 phase0
 	${WITH_SSM_BASE} && make phase2.done
 	touch $@
 
-# packages armnlib(data+include) and afsisio to be added here
+# packages armnlib(data+include) and afsisio added here
 phase2.done:  ${SSM_ENV_DOMAIN} ${ENV_PACKAGES} \
 	listd
 	@printf '====================== phase 2 done ======================\n\n'

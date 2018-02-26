@@ -5,5 +5,6 @@ cd ${Where} || return 1
 cd perl_needed/src || return 1
 make
 )
+echo ${PERL5LIB} | grep -q "${Where}/perl_needed/PERL5LIB/lib/perl5" && { echo "already done" ; return ; }
 [[ -n ${PERL5LIB} ]] && export PERL5LIB=${PERL5LIB}:${Where}/perl_needed/PERL5LIB/lib/perl5
 [[ -z ${PERL5LIB} ]] && export PERL5LIB=${Where}/perl_needed/PERL5LIB/lib/perl5
