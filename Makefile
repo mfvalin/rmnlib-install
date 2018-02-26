@@ -407,6 +407,7 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 ${SSM_ENV_DOMAIN}/etagere_1.0_all: ${SSM_REPOSITORY}/etagere_1.0_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/etagere_1.0_all.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p etagere_1.0_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/etagere_1.0_all
 	cd ${SSM_REPOSITORY} && rm -rf etagere_1.0_all && \
@@ -417,6 +418,7 @@ ${SSM_REPOSITORY}/etagere_1.0_all.ssm: ${GIT_CACHE}/etagere_1.0_all
 ${SSM_ENV_DOMAIN}/rde_1.0.8e_all: ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p rde_1.0.8e_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/rde_1.0.8e_all.ssm: ${GIT_CACHE}/rde_1.0.8e_all
 	cd ${SSM_REPOSITORY} && rm -rf rde_1.0.8e_all && \
@@ -429,6 +431,7 @@ ${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64: ${SSM_REPOSITORY}/perl-needed_
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm
 	( cd ${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64/src && make ; )
 	ssm publish -d ${SSM_ENV_DOMAIN} -p perl-needed_0.0_linux26-x86-64 --force
+	touch $@
 
 ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm: ${GIT_CACHE}/perl_needed
 	cd ${SSM_REPOSITORY} && rm -rf perl-needed_0.0_linux26-x86-64 && \
@@ -439,6 +442,7 @@ ${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm: ${GIT_CACHE}/perl_needed
 ${SSM_DOMAIN_HOME}/ssmuse_1.4.1_all: ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm
 	ssm install --clobber -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm
 	ssm publish -d ${SSM_DOMAIN_HOME} -p ssmuse_1.4.1_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm: ${GIT_CACHE}/ssmuse_fork.git
 	cd ${SSM_REPOSITORY} && rm -rf ssmuse_1.4.1_all && \
@@ -449,6 +453,7 @@ ${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm: ${GIT_CACHE}/ssmuse_fork.git
 ${SSM_DOMAIN_HOME}/ssm-wrappers_1.0.u_all: ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm
 	ssm install --clobber -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm
 	ssm publish -d ${SSM_DOMAIN_HOME} -p ssm-wrappers_1.0.u_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm: ${GIT_CACHE}/ssm-wrappers.git
 	cd ${SSM_REPOSITORY} && rm -rf ssm-wrappers_1.0.u_all && \
@@ -459,6 +464,7 @@ ${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm: ${GIT_CACHE}/ssm-wrappers.git
 ${SSM_DOMAIN_HOME}/env-setup_003_all: ${SSM_REPOSITORY}/env-setup_003_all.ssm
 	ssm install --clobber -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/env-setup_003_all.ssm
 	ssm publish -d ${SSM_DOMAIN_HOME} -p env-setup_003_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/env-setup_003_all.ssm: env-setup_003_all
 	tar zcf ${SSM_REPOSITORY}/env-setup_003_all.ssm env-setup_003_all
@@ -467,6 +473,7 @@ ${SSM_REPOSITORY}/env-setup_003_all.ssm: env-setup_003_all
 ${SSM_DOMAIN_HOME}/dot-profile-setup_2.0_all: ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
 	ssm install --clobber -d ${SSM_DOMAIN_HOME} -f ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm
 	ssm publish -d ${SSM_DOMAIN_HOME} -p dot-profile-setup_2.0_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm: ${GIT_CACHE}/dot-profile-setup
 	cd ${SSM_REPOSITORY} && rm -rf dot-profile-setup_2.0_all && \
@@ -477,6 +484,7 @@ ${SSM_REPOSITORY}/dot-profile-setup_2.0_all.ssm: ${GIT_CACHE}/dot-profile-setup
 ${SSM_ENV_DOMAIN}/shortcut-tools_1.0_all: ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p shortcut-tools_1.0_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm: ${GIT_CACHE}/shortcut-tools
 	cd ${SSM_REPOSITORY} && rm -rf shortcut-tools_1.0_all && \
@@ -487,6 +495,7 @@ ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm: ${GIT_CACHE}/shortcut-tools
 ${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}: ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p ${SSM_SHORTCUTS} --force
+	touch $@
 
 ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm: ${SSM_SHORTCUTS}
 	tar zcf ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm ${SSM_SHORTCUTS}
@@ -495,6 +504,7 @@ ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm: ${SSM_SHORTCUTS}
 ${SSM_ENV_DOMAIN}/cmcarc_4.3.1u_linux26-x86-64: ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p cmcarc_4.3.1u_linux26-x86-64 --force
+	touch $@
 
 ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm: ${GIT_CACHE}/cmcarc_fork
 	cd ${SSM_REPOSITORY} && rm -rf cmcarc_4.3.1u_linux26-x86-64 && \
@@ -505,6 +515,7 @@ ${SSM_REPOSITORY}/cmcarc_4.3.1u_linux26-x86-64.ssm: ${GIT_CACHE}/cmcarc_fork
 ${SSM_ENV_DOMAIN}/env-utils_1.0u_all: ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p env-utils_1.0u_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm: ${GIT_CACHE}/env-utils
 	cd ${SSM_REPOSITORY} && rm -rf env-utils_1.0u_all && \
@@ -515,6 +526,7 @@ ${SSM_REPOSITORY}/env-utils_1.0u_all.ssm: ${GIT_CACHE}/env-utils
 ${SSM_ENV_DOMAIN}/code-tools_1.0_all: ${SSM_REPOSITORY}/code-tools_1.0_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/code-tools_1.0_all.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p code-tools_1.0_all --force
+	touch $@
 
 ${SSM_REPOSITORY}/code-tools_1.0_all.ssm: ${GIT_CACHE}/code-tools
 	cd ${SSM_REPOSITORY} && rm -rf code-tools_1.0_all && \
@@ -525,6 +537,7 @@ ${SSM_REPOSITORY}/code-tools_1.0_all.ssm: ${GIT_CACHE}/code-tools
 ${SSM_ENV_DOMAIN}/r.gppf_1.0.1_linux26-x86-64: ${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm
 	ssm publish -d ${SSM_ENV_DOMAIN} -p r.gppf_1.0.1_linux26-x86-64 --force
+	touch $@
 
 ${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm: r.gppf_1.0.1_linux26-x86-64
 	tar zcf ${SSM_REPOSITORY}/r.gppf_1.0.1_linux26-x86-64.ssm --exclude=.git r.gppf_1.0.1_linux26-x86-64
