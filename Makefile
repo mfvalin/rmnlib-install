@@ -20,6 +20,10 @@ update:
 install:
 	make phase5
 
+auto:
+	mkdir -p ${GIT_CACHE} ${SSM_CACHE} ${INSTALL_HOME}
+	make
+
 rmnlib-install.cfg:
 	cp default-install.cfg rmnlib-install.cfg
 
