@@ -184,7 +184,7 @@ phase5.done:
 wipe_install:
 	rm -rf ${INSTALL_HOME}/*
 	rm -rf ${SSM_REPOSITORY}/*
-	rm -f *.done phase?
+	rm -f *.done phase? rmnlib-install.dot
 listd:
 	@ssm listd -d ${SSM_DOMAIN_HOME}
 
@@ -329,6 +329,7 @@ dependencies.done:
 	@gfortran --version >gfortran.version      || { echo "ERROR: gfortran not found" ; exit 1 ; }
 	@mpif90 --version   >mpif90.version        || { echo "ERROR: mpif90 not found" ; exit 1 ; }
 	@diff -q gfortran.version mpif90.version   || { echo "ERROR: mpif90/gfortran version not the same" ; exit 1 ; }
+	@rm -f gfortran.version mpif90.version
 	@which python         || { echo "ERROR: python not found" ; exit 1 ; }
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
