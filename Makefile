@@ -76,6 +76,7 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/rde_1.0.8e_all
 
 gitcache: ${GIT_PACKAGES}
+	for Target in ${LOCAL_GIT_PACKAGES} ; do cd $$Target ; git pull ; done
 
 SSM_PACKAGES = \
 	${SSM_REPOSITORY}/afsisio_1.0u_all.ssm \
