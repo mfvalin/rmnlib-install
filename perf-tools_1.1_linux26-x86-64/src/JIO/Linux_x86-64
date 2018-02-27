@@ -1,0 +1,6 @@
+#!/bin/ksh
+[[ "$1" == "install" ]] && mv s.jio-prof-linux-64.so ../../bin/s.jio-prof-linux-64.so && exit 0
+rm -f s.jio-prof-linux-64.so jio-uni.o
+[[ "$1" == "clean" ]] && exit 0
+. s.ssmuse.dot pgi11 devtools
+s.cc -I/usr/include -shared -o s.jio-prof-linux-64.so -openmp jio-uni-2.c -ldl

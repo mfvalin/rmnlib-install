@@ -368,7 +368,7 @@ dependencies.done:
 	@rm -f gfortran.version mpif90.version
 	@which python         || { echo "ERROR: python not found" ; exit 1 ; }
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
-	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
+	@for i in  File::Spec::Functions File::Basename URI::file Cwd POSIX ; do \
 	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  \
 	    { printf "ERROR: missing needed perl module $$i, try\n . ${CURDIR}/get_perl_needed.dot ${GIT_CACHE}\n" ; exit 1 ; } \
 	    done 
