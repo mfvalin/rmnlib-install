@@ -1,9 +1,6 @@
 
 include rmnlib-install.cfg
 
-# local install targets
-include rmnlib-local-install.cfg
-
 SHELL = bash
 
 SSM_VERBOSE = 
@@ -15,6 +12,9 @@ WITH_SSM_SETUP   = ${WITH_SSM_BASE} && . env-setup.dot && export GIT_CACHE=${GIT
 WITH_LIB_SETUP   = ${WITH_SSM_SETUP} && . r.load.dot ${SSM_LIB_DOMAIN}
 
 default: update
+
+# local install targets
+include rmnlib-local-install.cfg
 
 update:
 	rm -f phase*
