@@ -1,0 +1,16 @@
+
+default: update
+
+rmnlib-install:
+	[[ -d rmnlib-install ]] || git clone https://github.com/mfvalin/rmnlib-install
+
+rmnlib-install-update:
+	cd rmnlib-install ; git pull
+
+update: rmnlib-install rmnlib-install-update
+	echo CURDIR=${CURDIR}
+	make -C rmnlib-install $(MAKECMDGOALS)
+
+$(MAKECMDGOALS): rmnlib-install rmnlib-install-update
+	echo CURDIR=${CURDIR}
+	make -C rmnlib-install $(MAKECMDGOALS)
