@@ -1,6 +1,9 @@
 
 include rmnlib-install.cfg
 
+# local install targets
+include rmnlib-local-install.cfg
+
 SHELL = bash
 
 SSM_VERBOSE = 
@@ -26,6 +29,9 @@ auto-install:
 
 rmnlib-install.cfg:
 	cp default-install.cfg rmnlib-install.cfg
+
+rmnlib-local-install.cfg:
+	touch $@
 
 GIT_ARMNLIB = https://github.com/armnlib
 
@@ -364,7 +370,7 @@ dependencies.done:
 	@which perl           || { echo "ERROR: perl not found" ; exit 1 ; }
 	@for i in  File::Spec::Functions File::Basename URI::file Cwd  ; do \
 	    perl -e "use 5.008_008; use strict; use $$i" 2>/dev/null ||  \
-	    { printf "ERROR: missing needed perl module $$i, try\n . ./get_perl_needed.dot ${GIT_CACHE}\n" ; exit 1 ; } \
+	    { printf "ERROR: missing needed perl module $$i, try\n . ${CURDIR}/get_perl_needed.dot ${GIT_CACHE}\n" ; exit 1 ; } \
 	    done 
 	touch $@
 
