@@ -571,8 +571,8 @@ static long long jio_init()
     use_rdtsc=1;
     affinity_cpu=atoi(jio_env) ;
     fprintf(stderr,"Binding process to CPU %d\n",affinity_cpu);
-    __CPU_ZERO((&mycpus)) ;
-    __CPU_SET(affinity_cpu,&(mycpus)) ;
+    CPU_ZERO((&mycpus)) ;
+    CPU_SET(affinity_cpu,&(mycpus)) ;
     sched_setaffinity(mytid,sizeof(cpu_set_t),&mycpus);
     time_factor=.4;
   }
