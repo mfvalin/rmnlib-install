@@ -16,7 +16,7 @@ for Target in ${1:-/dev/gfortran} ; do
     [[ -f ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a ]] ||  { echo "ERROR: failed to create librpn_comm" ; exit 1 ; } ; \
     [[ -f ../lib/${EC_ARCH}/librpn_commstubs_${INSTALLED_VERSION}.a ]] ||  { echo "ERROR: failed to create librpn_comm_stubs" ; exit 1 ; } ; \
     nobjects=$(ar tv ../lib/${EC_ARCH}/librpn_comm_${INSTALLED_VERSION}.a | wc -l) ; \
-    ((${nobjects}>=98)) ||  { echo "ERROR: missing objects (expected 98, found ${nobjects}) in librpn_comm_${INSTALLED_VERSION}.a" ; exit 1 ; } ; \
+    make check ||  { echo "ERROR: missing/extra objects in librpn_comm_${INSTALLED_VERSION}.a" ; exit 1 ; } ; \
     mkdir -p ../../lib/${EC_ARCH} ; \
     mkdir -p ../../include/${EC_ARCH} ; \
     cp ../include/${EC_ARCH}/* ../../include/${EC_ARCH} ; \
