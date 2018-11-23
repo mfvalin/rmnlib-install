@@ -100,7 +100,8 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm \
-	${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
+	${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm \
+	${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
 
 ENV_PACKAGES = \
 	${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64 \
@@ -117,6 +118,7 @@ ENV_PACKAGES = \
 	${SSM_ENV_DOMAIN}/armnlib_2.0u_all \
 	${SSM_ENV_DOMAIN}/etagere_1.0_all \
 	${SSM_ENV_DOMAIN}/rde_1.0.8e_all \
+	${SSM_ENV_DOMAIN}/rpnpy_2.0.4_all \
 	${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}
 
 LIB_PACKAGES = \
@@ -499,6 +501,23 @@ ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm: ${GIT_CACHE}/shortcut-tools
 	    git clone ${GIT_CACHE}/shortcut-tools shortcut-tools_1.0_all && \
 	    tar zcf shortcut-tools_1.0_all.ssm --exclude=.git shortcut-tools_1.0_all
 
+# rpnpy_2.0.4_all
+${SSM_ENV_DOMAIN}/rpnpy_2.0.4_all: ${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
+	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
+	ssm publish -d ${SSM_ENV_DOMAIN} -p rpnpy_2.0.4_all --force
+	touch $@
+
+${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm: ${GIT_CACHE}/python-rpn
+	cd ${SSM_REPOSITORY} && rm -rf rpnpy_2.0.4_all && \
+	    git clone ${GIT_CACHE}/python-rpn rpnpy_2.0.4_all && \
+	    cd rpnpy_2.0.4_all && \
+	    git checkout python-rpn_2.0.4 && \
+	    cd lib/rpnpy && \
+	    printf "__VERSION__ = '2.0.4'\\n" >version.py && \
+	    printf "__LASTUPDATE__ = '$$(date -u '+%Y-%m-%d %H:%M %Z')'" >>version.py && \
+	    cd ${SSM_REPOSITORY} && \
+	    tar zcf rpnpy_2.0.4_all.ssm --exclude=.git rpnpy_2.0.4_all
+
 # shortcuts (generic or site specific)
 ${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}: ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
@@ -658,9 +677,3 @@ ${SSM_ENV_DOMAIN}/afsisio_1.0u_all: $(SSM_REPOSITORY)/afsisio_1.0u_all.ssm
 ${SSM_ENV_DOMAIN}/armnlib_2.0u_all: $(SSM_REPOSITORY)/armnlib_2.0u_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -u $(SSM_REPOSITORY) -p armnlib_2.0u_all
 	ssm publish -d ${SSM_ENV_DOMAIN} -p armnlib_2.0u_all --force
-
-
-
-
-
-
