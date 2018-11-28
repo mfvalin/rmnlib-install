@@ -26,5 +26,12 @@ it will be an iterative process
 a working gfortran and opemnmpi are expected to be available in the
 "vanilla" environment (proper packages are available for usual distros)
 
+the installer will create a file
 
+${HOME}/.profile_armnlib
 
+sourcing it using
+
+. ${HOME}/.profile_armnlib
+
+will activate the environment
