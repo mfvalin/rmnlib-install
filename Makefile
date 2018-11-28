@@ -33,6 +33,10 @@ rmnlib-install.cfg:
 rmnlib-local-install.cfg:
 	touch $@
 
+${HOME}/.profile_armnlib:
+	echo ". ${SSM_DOMAIN_HOME}/etc/ssm.d/profile" >$@
+	echo ". env-setup.dot" >$@
+
 GIT_ARMNLIB = https://github.com/armnlib
 
 GIT_PYRPN = https://github.com/meteokid
@@ -136,7 +140,7 @@ LIB_PACKAGES = \
 ##############################################################################################################
 # phase 0 : populate the git cache and the ssm cache,  create package repository
 ##############################################################################################################
-phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} ${SSM_REPOSITORY} ${GIT_PACKAGES}
+phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} ${SSM_REPOSITORY} ${GIT_PACKAGES} ${HOME}/.profile_armnlib
 	touch $@
 
 ##############################################################################################################
