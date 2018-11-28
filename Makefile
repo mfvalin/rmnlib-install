@@ -73,7 +73,7 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/voir \
 	${GIT_CACHE}/python-rpn \
 	${GIT_CACHE}/etagere_1.0_all \
-	${GIT_CACHE}/fst2tsf_1.0_linux26-x86-64 \
+	${GIT_CACHE}/fst2tsf \
 	${GIT_CACHE}/rde_1.0.8e_all
 
 gitcache: ${GIT_PACKAGES}
