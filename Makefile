@@ -73,6 +73,7 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/voir \
 	${GIT_CACHE}/python-rpn \
 	${GIT_CACHE}/etagere_1.0_all \
+	${GIT_CACHE}/fst2tsf_1.0_linux26-x86-64 \
 	${GIT_CACHE}/rde_1.0.8e_all
 
 gitcache: ${GIT_PACKAGES}
@@ -84,6 +85,7 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/ssm_10.151_all.ssm \
 	${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/etagere_1.0_all.ssm \
+	${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rde_1.0.8e_all.ssm \
 	${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm \
 	${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm \
@@ -128,6 +130,7 @@ LIB_PACKAGES = \
 	${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64      \
 	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64     \
 	${SSM_LIB_DOMAIN}/perf-tools_1.1_linux26-x86-64     \
+	${SSM_LIB_DOMAIN}/fst2tsf_1.0_linux26-x86-64        \
 	${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
 
 ##############################################################################################################
@@ -226,6 +229,9 @@ ${GIT_CACHE}/rde_1.0.8e_all:
 
 ${GIT_CACHE}/etagere_1.0_all:
 	git clone ${GIT_HOME}/etagere ${GIT_CACHE}/etagere_1.0_all
+
+${GIT_CACHE}/fst2tsf:
+	git clone ${GIT_HOME}/fst2tsf ${GIT_CACHE}/fst2tsf
 
 ${GIT_CACHE}/python-rpn:
 	git clone ${GIT_PYRPN}/python-rpn ${GIT_CACHE}/python-rpn
@@ -412,6 +418,17 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 	    --domainHome ${SSM_DOMAIN_HOME} \
 	    --ssmRepositoryUrl ${SSM_REPOSITORY} \
 	    --defaultRepositorySource ${SSM_REPOSITORY}
+
+# fst2tsf
+${SSM_LIB_DOMAIN}/fst2tsf_1.0_linux26-x86-64: ${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm
+	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm
+	ssm publish -d ${SSM_LIB_DOMAIN} -p fst2tsf_1.0_linux26-x86-64 --force
+	touch $@
+
+${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm: ${GIT_CACHE}/fst2tsf
+	cd ${SSM_REPOSITORY} && rm -rf fst2tsf_1.0_linux26-x86-64 && \
+	  git clone ${GIT_CACHE}/fst2tsf fst2tsf_1.0_linux26-x86-64 && \
+	  tar zcf fst2tsf_1.0_linux26-x86-64.ssm  --exclude=.git fst2tsf_1.0_linux26-x86-64
 
 # etagere
 ${SSM_ENV_DOMAIN}/etagere_1.0_all: ${SSM_REPOSITORY}/etagere_1.0_all.ssm
