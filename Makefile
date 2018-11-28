@@ -35,7 +35,7 @@ rmnlib-local-install.cfg:
 
 ${HOME}/.profile_armnlib:
 	echo ". ${SSM_DOMAIN_HOME}/etc/ssm.d/profile" >$@
-	echo ". env-setup.dot" >$@
+	echo ". env-setup.dot" >>$@
 
 GIT_ARMNLIB = https://github.com/armnlib
 
