@@ -1,5 +1,12 @@
+# default values
+# VGRID_RELEASE = 6.1.gnu
 
 include rmnlib-install.cfg
+
+ifeq "$(VGRID_RELEASE)" ""
+  $(error ERROR: variable VGRID_RELEASE is not defined, pls. adjust rmnlib-install.cfg or use an environment variable \
+  [VGRID_RELEASE = 6.1.gnu or 6.4])
+endif
 
 SHELL = bash
 
@@ -12,6 +19,9 @@ WITH_SSM_SETUP   = ${WITH_SSM_BASE} && . env-setup.dot && export GIT_CACHE=${GIT
 WITH_LIB_SETUP   = ${WITH_SSM_SETUP} && . r.load.dot ${SSM_LIB_DOMAIN}
 
 default: update
+
+test-cfg: rmnlib-install.cfg
+	echo "=== test-cfg ==="
 
 # local install targets
 include rmnlib-local-install.cfg
@@ -106,7 +116,7 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm \
-	${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm \
+	${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
 
 ENV_PACKAGES = \
@@ -135,7 +145,7 @@ LIB_PACKAGES = \
 	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64     \
 	${SSM_LIB_DOMAIN}/perf-tools_1.1_linux26-x86-64     \
 	${SSM_LIB_DOMAIN}/fst2tsf_1.0_linux26-x86-64        \
-	${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
+	${SSM_LIB_DOMAIN}/vgrid_${VGRID_RELEASE}_linux26-x86-64
 
 ##############################################################################################################
 # phase 0 : populate the git cache and the ssm cache,  create package repository
@@ -666,18 +676,18 @@ ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm: rpncomm_4.5.16_linux26-x86-
 	rm -f rpncomm.done
 
 # vgrid descriptors
-vgrid.done: ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
+vgrid.done: ${SSM_LIB_DOMAIN}/vgrid_${VGRID_RELEASE}_linux26-x86-64
 	install_vgrid.sh ${DEFAULT_INSTALL_ARCH}
-	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_${VGRID_RELEASE}_linux26-x86-64 --force
 	touch $@
 
-${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
-	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
-	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+${SSM_LIB_DOMAIN}/vgrid_${VGRID_RELEASE}_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm
+	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm
+	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_${VGRID_RELEASE}_linux26-x86-64 --force
 	touch $@
 
-${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm: vgrid_6.1.gnu_linux26-x86-64
-	tar zcf ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm --exclude=.git vgrid_6.1.gnu_linux26-x86-64
+${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm: vgrid_${VGRID_RELEASE}_linux26-x86-64
+	tar zcf ${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm --exclude=.git vgrid_${VGRID_RELEASE}_linux26-x86-64
 	rm -f vgrid.done
 
 # perf tools perf-tools_1.1_linux26-x86-64
