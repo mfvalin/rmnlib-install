@@ -7,6 +7,7 @@ for Target in ${1:-/dev/gfortran} ; do
   ( \
     . r.load.dot ${Target} ; \
     [[ -n ${EC_ARCH} ]] || exit 1 ; \
-    make distclean && make updlib && make clean ; \
+    . ./setup_generic.dot
+    make distclean && make shared && make clean ; \
     )
 done
