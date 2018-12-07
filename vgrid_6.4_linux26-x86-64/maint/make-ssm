@@ -8,4 +8,4 @@ tar --help 1>/dev/null 2>/dev/null && TarCmd=tar
 gtar --help 1>/dev/null 2>/dev/null && TarCmd=gtar
 gnutar --help 1>/dev/null 2>/dev/null && TarCmd=gnutar
 set -x
-${TarCmd} $(cat vgrid_6.1.gnu_linux26-x86-64/maint/excludes) --exclude-from=vgrid_6.1.gnu_linux26-x86-64/maint/excludes.list -zcf ${SsmDepot}/${package}.ssm $(cat vgrid_6.1.gnu_linux26-x86-64/maint/include)
+${TarCmd} $(cat vgrid_6.4_linux26-x86-64/maint/excludes) --exclude-from=vgrid_6.4_linux26-x86-64/maint/excludes.list -zcf ${SsmDepot}/${package}.ssm $(cat vgrid_6.4_linux26-x86-64/maint/include)
