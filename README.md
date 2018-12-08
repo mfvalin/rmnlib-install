@@ -14,6 +14,8 @@ mv rmnlib-install/Makefile.bootstrap Makefile
 cp  rmnlib-install/default-install.cfg rmnlib-install/rmnlib-install.cfg
 adjust rmnlib-install/rmnlib-install.cfg
 
+export LANG=C
+
 make
 
 you will be prompted to create some directories and maybe to install
