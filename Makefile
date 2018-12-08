@@ -1,5 +1,12 @@
+# default values
+# VGRID_RELEASE = 6.1.gnu
 
 include rmnlib-install.cfg
+
+ifeq "$(VGRID_RELEASE)" ""
+  $(error ERROR: variable VGRID_RELEASE is not defined, pls. adjust rmnlib-install.cfg or use an environment variable \
+  [VGRID_RELEASE = 6.1.gnu or 6.4])
+endif
 
 SHELL = bash
 
@@ -12,6 +19,9 @@ WITH_SSM_SETUP   = ${WITH_SSM_BASE} && . env-setup.dot && export GIT_CACHE=${GIT
 WITH_LIB_SETUP   = ${WITH_SSM_SETUP} && . r.load.dot ${SSM_LIB_DOMAIN}
 
 default: update
+
+test-cfg: rmnlib-install.cfg
+	echo "=== test-cfg ==="
 
 # local install targets
 include rmnlib-local-install.cfg
@@ -32,6 +42,10 @@ rmnlib-install.cfg:
 
 rmnlib-local-install.cfg:
 	touch $@
+
+${HOME}/.profile_armnlib:
+	echo ". ${SSM_DOMAIN_HOME}/etc/ssm.d/profile" >$@
+	echo ". env-setup.dot" >>$@
 
 GIT_ARMNLIB = https://github.com/armnlib
 
@@ -73,6 +87,7 @@ GIT_PACKAGES = \
 	${GIT_CACHE}/voir \
 	${GIT_CACHE}/python-rpn \
 	${GIT_CACHE}/etagere_1.0_all \
+	${GIT_CACHE}/fst2tsf \
 	${GIT_CACHE}/rde_1.0.8e_all
 
 gitcache: ${GIT_PACKAGES}
@@ -84,6 +99,7 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/ssm_10.151_all.ssm \
 	${SSM_REPOSITORY}/perl-needed_0.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/etagere_1.0_all.ssm \
+	${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rde_1.0.8e_all.ssm \
 	${SSM_REPOSITORY}/ssmuse_1.4.1_all.ssm \
 	${SSM_REPOSITORY}/ssm-wrappers_1.0.u_all.ssm \
@@ -100,7 +116,8 @@ SSM_PACKAGES = \
 	${SSM_REPOSITORY}/rmnlib_016.3_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/utils-rmnlib_1.0_linux26-x86-64.ssm \
 	${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm \
-	${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
+	${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm \
+	${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
 
 ENV_PACKAGES = \
 	${SSM_ENV_DOMAIN}/perl-needed_0.0_linux26-x86-64 \
@@ -117,6 +134,7 @@ ENV_PACKAGES = \
 	${SSM_ENV_DOMAIN}/armnlib_2.0u_all \
 	${SSM_ENV_DOMAIN}/etagere_1.0_all \
 	${SSM_ENV_DOMAIN}/rde_1.0.8e_all \
+	${SSM_ENV_DOMAIN}/rpnpy_2.0.4_all \
 	${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}
 
 LIB_PACKAGES = \
@@ -126,12 +144,13 @@ LIB_PACKAGES = \
 	${SSM_LIB_DOMAIN}/makebidon_1.1_linux26-x86-64      \
 	${SSM_LIB_DOMAIN}/rpncomm_4.5.16_linux26-x86-64     \
 	${SSM_LIB_DOMAIN}/perf-tools_1.1_linux26-x86-64     \
-	${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
+	${SSM_LIB_DOMAIN}/fst2tsf_1.0_linux26-x86-64        \
+	${SSM_LIB_DOMAIN}/vgrid_${VGRID_RELEASE}_linux26-x86-64
 
 ##############################################################################################################
 # phase 0 : populate the git cache and the ssm cache,  create package repository
 ##############################################################################################################
-phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} ${SSM_REPOSITORY} ${GIT_PACKAGES}
+phase0: ${GIT_CACHE} dependencies.done ${SSM_CACHE} ${INSTALL_HOME} ${SSM_REPOSITORY} ${GIT_PACKAGES} ${HOME}/.profile_armnlib
 	touch $@
 
 ##############################################################################################################
@@ -224,6 +243,9 @@ ${GIT_CACHE}/rde_1.0.8e_all:
 
 ${GIT_CACHE}/etagere_1.0_all:
 	git clone ${GIT_HOME}/etagere ${GIT_CACHE}/etagere_1.0_all
+
+${GIT_CACHE}/fst2tsf:
+	git clone ${GIT_HOME}/fst2tsf ${GIT_CACHE}/fst2tsf
 
 ${GIT_CACHE}/python-rpn:
 	git clone ${GIT_PYRPN}/python-rpn ${GIT_CACHE}/python-rpn
@@ -411,6 +433,17 @@ ${SSM_DOMAIN_HOME}: ${SSM_REPOSITORY}/ssm_10.151_all.ssm
 	    --ssmRepositoryUrl ${SSM_REPOSITORY} \
 	    --defaultRepositorySource ${SSM_REPOSITORY}
 
+# fst2tsf
+${SSM_LIB_DOMAIN}/fst2tsf_1.0_linux26-x86-64: ${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm
+	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm
+	ssm publish -d ${SSM_LIB_DOMAIN} -p fst2tsf_1.0_linux26-x86-64 --force
+	touch $@
+
+${SSM_REPOSITORY}/fst2tsf_1.0_linux26-x86-64.ssm: ${GIT_CACHE}/fst2tsf
+	cd ${SSM_REPOSITORY} && rm -rf fst2tsf_1.0_linux26-x86-64 && \
+	  git clone ${GIT_CACHE}/fst2tsf fst2tsf_1.0_linux26-x86-64 && \
+	  tar zcf fst2tsf_1.0_linux26-x86-64.ssm  --exclude=.git fst2tsf_1.0_linux26-x86-64
+
 # etagere
 ${SSM_ENV_DOMAIN}/etagere_1.0_all: ${SSM_REPOSITORY}/etagere_1.0_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/etagere_1.0_all.ssm
@@ -498,6 +531,23 @@ ${SSM_REPOSITORY}/shortcut-tools_1.0_all.ssm: ${GIT_CACHE}/shortcut-tools
 	cd ${SSM_REPOSITORY} && rm -rf shortcut-tools_1.0_all && \
 	    git clone ${GIT_CACHE}/shortcut-tools shortcut-tools_1.0_all && \
 	    tar zcf shortcut-tools_1.0_all.ssm --exclude=.git shortcut-tools_1.0_all
+
+# rpnpy_2.0.4_all
+${SSM_ENV_DOMAIN}/rpnpy_2.0.4_all: ${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
+	ssm install --clobber -d ${SSM_ENV_DOMAIN} -f ${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm
+	ssm publish -d ${SSM_ENV_DOMAIN} -p rpnpy_2.0.4_all --force
+	touch $@
+
+${SSM_REPOSITORY}/rpnpy_2.0.4_all.ssm: ${GIT_CACHE}/python-rpn
+	cd ${SSM_REPOSITORY} && rm -rf rpnpy_2.0.4_all && \
+	    git clone ${GIT_CACHE}/python-rpn rpnpy_2.0.4_all && \
+	    cd rpnpy_2.0.4_all && \
+	    git checkout python-rpn_2.0.4 && \
+	    cd lib/rpnpy && \
+	    printf "__VERSION__ = '2.0.4'\\n" >version.py && \
+	    printf "__LASTUPDATE__ = '$$(date -u '+%Y-%m-%d %H:%M %Z')'" >>version.py && \
+	    cd ${SSM_REPOSITORY} && \
+	    tar zcf rpnpy_2.0.4_all.ssm --exclude=.git rpnpy_2.0.4_all
 
 # shortcuts (generic or site specific)
 ${SSM_ENV_DOMAIN}/${SSM_SHORTCUTS}: ${SSM_REPOSITORY}/${SSM_SHORTCUTS}.ssm
@@ -626,18 +676,18 @@ ${SSM_REPOSITORY}/rpncomm_4.5.16_linux26-x86-64.ssm: rpncomm_4.5.16_linux26-x86-
 	rm -f rpncomm.done
 
 # vgrid descriptors
-vgrid.done: ${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64
+vgrid.done: ${SSM_LIB_DOMAIN}/vgrid_${VGRID_RELEASE}_linux26-x86-64
 	install_vgrid.sh ${DEFAULT_INSTALL_ARCH}
-	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_${VGRID_RELEASE}_linux26-x86-64 --force
 	touch $@
 
-${SSM_LIB_DOMAIN}/vgrid_6.1.gnu_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
-	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm
-	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_6.1.gnu_linux26-x86-64 --force
+${SSM_LIB_DOMAIN}/vgrid_${VGRID_RELEASE}_linux26-x86-64: ${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm
+	ssm install --clobber -d ${SSM_LIB_DOMAIN} -f ${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm
+	ssm publish -d ${SSM_LIB_DOMAIN} -p vgrid_${VGRID_RELEASE}_linux26-x86-64 --force
 	touch $@
 
-${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm: vgrid_6.1.gnu_linux26-x86-64
-	tar zcf ${SSM_REPOSITORY}/vgrid_6.1.gnu_linux26-x86-64.ssm --exclude=.git vgrid_6.1.gnu_linux26-x86-64
+${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm: vgrid_${VGRID_RELEASE}_linux26-x86-64
+	tar zcf ${SSM_REPOSITORY}/vgrid_${VGRID_RELEASE}_linux26-x86-64.ssm --exclude=.git vgrid_${VGRID_RELEASE}_linux26-x86-64
 	rm -f vgrid.done
 
 # perf tools perf-tools_1.1_linux26-x86-64
@@ -658,9 +708,3 @@ ${SSM_ENV_DOMAIN}/afsisio_1.0u_all: $(SSM_REPOSITORY)/afsisio_1.0u_all.ssm
 ${SSM_ENV_DOMAIN}/armnlib_2.0u_all: $(SSM_REPOSITORY)/armnlib_2.0u_all.ssm
 	ssm install --clobber -d ${SSM_ENV_DOMAIN} -u $(SSM_REPOSITORY) -p armnlib_2.0u_all
 	ssm publish -d ${SSM_ENV_DOMAIN} -p armnlib_2.0u_all --force
-
-
-
-
-
-
