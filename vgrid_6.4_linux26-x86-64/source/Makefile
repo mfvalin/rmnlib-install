@@ -13,6 +13,12 @@ include version.dot
 
 default: libdescrip.a
 
+updlib: shared
+	mkdir -p ../lib/${EC_ARCH}
+	mv *.a *.so ../lib/${EC_ARCH}
+	mkdir -p ../include/${EC_ARCH}
+	cp *.h *.hf vgrid_version.* *.mod ../include/${EC_ARCH}
+
 dependencies.mk: *.c *.F90 *.h *.hc
 	ls *.hc *.c *.F90 | ./s.dependencies.pl > dependencies.mk ;\
 
