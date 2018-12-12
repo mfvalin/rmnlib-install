@@ -1,7 +1,7 @@
 
 ifeq ($(BASE_ARCH),$(EC_ARCH))
-   $(info ERROR: please setup the compilation environment by typing the folowing:)
-   $(info . setup.dot or . setup_gpsc.dot)
+   $(info ERROR: please setup a compilation environment and use :)
+   $(info . ./setup.dot)
    $(error )
 endif
 
@@ -37,7 +37,7 @@ shared: libdescrip.a
 	if [ $$ORDENV_PLAT != ubuntu-12.04-amd64-64 -a $$ORDENV_PLAT != aix-7.1-ppc7-64 ]; then \
 	   s.f90 -shared -openmp -o libdescripshared.so *.o -lrmnshared -Wl,-rpath,$(RPN_SHARED_LIB);\
 	else \
-	   echo "No shared library on $$ORDENV_PLAT anymore due to new incompatible flag -static-intel";\
+	   echo "No shared library for $$ORDENV_PLAT due to incompatibilities";\
 	fi
 
 vgrid_version:
