@@ -25,7 +25,7 @@ updlib: shared
 	cp *.h *.hf vgrid_version.* *.mod ../include/${EC_ARCH}
 
 dependencies.mk: *.c *.F90 *.h *.hc
-	ls *.hc *.c *.F90 | ./s.dependencies.pl > dependencies.mk ;\
+	ls *.hc *.c *.F90 | ./s.dependencies.pl > dependencies.mk 
 
 include dependencies.mk
 
@@ -36,7 +36,7 @@ include dependencies.mk
 	s.cc -c -openmp $(MY_CFLAGS) $(CFLAGS) $(LEFENCE) $<
 
 libdescrip.a: $(OBJECTS) dependencies.mk vgrid_version
-	rm -f libdescrip.a && ar scru libdescrip.a *.o ;\
+	rm -f libdescrip.a && ar scru libdescrip.a *.o 
 
 shared: libdescrip.a
 	if [ $$ORDENV_PLAT != ubuntu-12.04-amd64-64 -a $$ORDENV_PLAT != aix-7.1-ppc7-64 ]; then \
@@ -46,25 +46,16 @@ shared: libdescrip.a
 	fi
 
 vgrid_version:
-	echo "character(len=128) :: vgrid_descriptors_version = \"VGRID $(BH_PULL_SOURCE_GIT_BRANCH) $(COMP_ARCH) $(ORDENV_PLAT) $(shell date)\"" > vgrid_version.hf ;\
-	echo                "char vgrid_descriptors_version[] = \"VGRID $(BH_PULL_SOURCE_GIT_BRANCH) $(COMP_ARCH) $(ORDENV_PLAT) $(shell date)\";" > vgrid_version.hc ;\
-
-ssm:
-	../bh_vgrid.py -p $(ORDENV_PLAT) -m $(BH_MODE) -v BH_PULL_SOURCE=$(PWD)/.. -v BH_PULL_SOURCE_GIT_BRANCH=$(BH_PULL_SOURCE_GIT_BRANCH) -v BH_PACKAGE_VERSION=$(BH_PULL_SOURCE_GIT_BRANCH)-$(COMP_ARCH) --local ;\
+	echo "character(len=128) :: vgrid_descriptors_version = \"VGRID $(BH_PULL_SOURCE_GIT_BRANCH) $(COMP_ARCH) $(ORDENV_PLAT) $(shell date)\"" > vgrid_version.hf
+	echo                "char vgrid_descriptors_version[] = \"VGRID $(BH_PULL_SOURCE_GIT_BRANCH) $(COMP_ARCH) $(ORDENV_PLAT) $(shell date)\";" > vgrid_version.hc
 
 clean:
-	rm -f *.o *.mod ;\
-
-clean_ssm: clean_bh
-	rm -f *.ssm ;\
-
-clean_bh:
-	rm -rf vgriddescriptors vgriddescriptors_*  log-*-*-*-*-* report-*-*-*-*-* work-*-*-*-*-* ;\
+	rm -f *.o *.mod
 
 distclean: clean
-	rm -f libdescrip.a libdescripshared.so ;\
+	rm -f libdescrip.a libdescripshared.so
 
 clean_tilde:
-	rm -f *~ ;\
+	rm -f *~
 
 clean_all: distclean clean_ssm clean_bh clean_tilde
