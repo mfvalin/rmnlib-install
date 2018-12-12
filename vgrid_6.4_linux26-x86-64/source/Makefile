@@ -53,9 +53,9 @@ clean:
 	rm -f *.o *.mod
 
 distclean: clean
-	rm -f libdescrip.a libdescripshared.so
+	rm -f libdescrip.a libdescripshared.so vgrid_version.hc vgrid_version.hf dependencies.mk
 
 clean_tilde:
 	rm -f *~
 
-clean_all: distclean clean_ssm clean_bh clean_tilde
+clean_all: distclean  clean_tilde
