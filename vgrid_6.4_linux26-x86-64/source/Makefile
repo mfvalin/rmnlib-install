@@ -1,6 +1,11 @@
 
 ifeq ($(BASE_ARCH),$(EC_ARCH))
-   $(info ERROR: please setup a compilation environment and use :)
+   $(info ERROR: please setup a compilation environment)
+   $(error )
+endif
+
+ifeq ($(RPN_SHARED_LIB),)
+   $(info ERROR: RPN_SHARED_LIB not found, please use :)
    $(info . ./setup.dot)
    $(error )
 endif
