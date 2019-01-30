@@ -10,6 +10,7 @@ for Target in ${1:-/dev/gfortran} ; do
   ( \
     . r.load.dot ${Target} ; \
     [[ -n ${EC_ARCH} ]] || exit 1 ; \
+    export VTAG=-none ; \
     make clean ; \
     make itf ; \
     make all stublib ; \
