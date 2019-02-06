@@ -17,7 +17,7 @@ Until something better is devised, here is a quick and dirty setup recipe.
 git clone https://github.com/mfvalin/rmnlib-install
 mv rmnlib-install/Makefile.bootstrap Makefile
 cp rmnlib-install/default-install.cfg rmnlib-install/rmnlib-install.cfg
-adjust rmnlib-install/rmnlib-install.cfg
+vi rmnlib-install/rmnlib-install.cfg  # adjust file contents
 export LANG=C
 make
 ```
