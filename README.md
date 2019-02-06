@@ -1,39 +1,39 @@
-# rmnlib-install
+rmnlib-install provides a portable version of the core RPN environment.
 
-quick and dirty recipe (pending something better)
+# Setup
+Until something better is devised, here is a quick and dirty setup recipe.
 
-"suggested" install method :
+## Requirements
 
-no environment (deactivate .bashrc, .profile , ..., /bin/bash as login
-shell)
+* Clean environment: deactivate `.bashrc`, `.profile`, etc.
 
+* Use `/bin/bash` as login shell.
+
+* A working `gfortran` and `opemnmpi` are expected to be available. These packages should be available in standard distributions.
+
+## Steps
+
+```bash
 git clone https://github.com/mfvalin/rmnlib-install
-
 mv rmnlib-install/Makefile.bootstrap Makefile
-
-cp  rmnlib-install/default-install.cfg rmnlib-install/rmnlib-install.cfg
+cp rmnlib-install/default-install.cfg rmnlib-install/rmnlib-install.cfg
 adjust rmnlib-install/rmnlib-install.cfg
-
 export LANG=C
-
 make
+```
 
-you will be prompted to create some directories and maybe to install
-some software.
+You will be prompted to create some directories and maybe to install some software.
 
-perform adjustments/installs and rerun make
+Perform adjustments/installs and rerun make. This may be an iterative process.
 
-it will be an iterative process
+## Usage
 
-a working gfortran and opemnmpi are expected to be available in the
-"vanilla" environment (proper packages are available for usual distros)
+The installer will create a file:
 
-the installer will create a file
+`${HOME}/.profile_armnlib`
 
-${HOME}/.profile_armnlib
+You can source it with this command:
 
-sourcing it using
+`. ${HOME}/.profile_armnlib`
 
-. ${HOME}/.profile_armnlib
-
-will activate the environment
+To activate the environment.
