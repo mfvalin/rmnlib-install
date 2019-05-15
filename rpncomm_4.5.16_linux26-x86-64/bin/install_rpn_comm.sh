@@ -2,6 +2,7 @@
 export USE_RECURSIVE_SHORTCUTS=yes
 Where=$(readlink -e ${0})
 cd ${Where%/bin*}/src || exit 1
+git checkout temp_4.5.16.16 || git checkout -b temp_4.5.16.16 rpncomm_4.5.16.16
 cd rpncomm || exit 1
 . ./RPN_COMM_version.inc
 export INSTALLED_VERSION=${RPN_COMM_version}
