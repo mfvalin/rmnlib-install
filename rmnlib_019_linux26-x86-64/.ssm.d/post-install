@@ -1,0 +1,16 @@
+#!/bin/bash
+domainHome=$1
+packageHome=$2
+profileDirPath=${packageHome}/etc/profile.d
+packageName=${packageHome##*/}
+profilePath=${profileDirPath}/${packageName}.sh
+mkdir -p ${profileDirPath}
+#echo "#${packageName%%_*}_HOME=${packageHome}" >> ${profilePath}
+cd ${packageHome}
+#mkdir -p src
+#cd src && tar xf ../*.tar.gz --strip=1
+[[ -d src ]] || git clone ${GIT_CACHE:-https://github.com/mfvalin}/librmn src
+cd src || exit 1
+git pull
+git checkout rmnlib_019 || exit 1
+git pull

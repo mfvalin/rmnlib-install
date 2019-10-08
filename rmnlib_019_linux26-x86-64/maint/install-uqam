@@ -1,0 +1,4 @@
+#!/bin/bash
+set -x
+export HOST_TARGETS="gfortran intel-14 intel-16 pgi-13 pgi-16"
+${0%-*}-library "$@"
