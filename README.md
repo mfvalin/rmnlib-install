@@ -1,5 +1,7 @@
 rmnlib-install provides a portable version of the core RPN environment.
 
+(NOT up to date, no longer maintained)
+
 # Setup
 Until something better is devised, here is a quick and dirty setup recipe.
 
